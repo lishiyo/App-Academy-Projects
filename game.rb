@@ -24,9 +24,14 @@ class Board
 		bar.none?{|space| space.nil? }
 	end
 	
-# 	def []=(idx, val)
-# 		@bar[idx] = val
-# 	end
+	# set board[2] = 'a'
+	def []=(idx, letter)
+		@bar[idx] = letter
+ 	end
+	
+	def [](idx)
+		@bar[idx]
+	end
 	
 end
 
@@ -47,7 +52,6 @@ class Game
 		length = checker.pick_secret_word # picks a word, returns length
 		@board = Board.new(length)
 		guesser.receive_secret_length(@board)
-		puts checker.secret
 		
 		until @misses > MAX_MISSES
 			
@@ -61,8 +65,8 @@ class Game
 			# break if the board is over
 			Game.won if @board.filled?
 	
-			# if not over, pass updated board to guesser 
-			guesser.handle_guess_response(board)
+			# if not over, pass updated board arr to guesser 
+			guesser.handle_guess_response(board.bar)
 	
 		end
 		
@@ -89,6 +93,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME
 	puts "Do you want to 1) play the computer or 2) make up a word and let the computer play you? Enter 1 or 2."
+	begin
 	response = gets.chomp.chars.map(&:to_i).first
 	case response
 	when 1
@@ -99,6 +104,9 @@ if __FILE__ == $PROGRAM_NAME
 		p1 = ComputerPlayer.new
 	else
 		raise "Sorry, not a valid response!"
+	end
+	rescue
+		retry
 	end
 	
 	game = Game.new(p1, p2)
