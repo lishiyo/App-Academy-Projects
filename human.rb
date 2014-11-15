@@ -6,6 +6,7 @@ class HumanPlayer
 	# AS GUESSER
 	
 	def receive_secret_length(board)
+		@guessed_letters = []
 		board.render
 	end
 	
@@ -14,16 +15,18 @@ class HumanPlayer
 		
 		begin
 			letter = gets.chomp.downcase	
-			raise "oops try again" unless (letter =~ /[a-z]/)
-		rescue
+			raise "oops, try again! Must have guessed that before!" unless (letter =~ /[a-z]/ && !@guessed_letters.include?(letter))
+		rescue Exception => e
+			puts e.message
 			retry
 		end
 		
+		@guessed_letters << letter
 		letter
 	end
 	
 	def handle_guess_response(board)
-		board.render
+		#board.render
 	end
 	
 	# AS CHECKER
@@ -68,3 +71,4 @@ class HumanPlayer
 	end
 	
 end
+

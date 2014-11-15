@@ -58,7 +58,8 @@ class Game
 			
 			# return letter given current board
 			guess = guesser.make_guess 
-	
+			
+			# rescue human putting in wrong indices
 			begin
 				# return array of hits given guess
 				hits_arr = checker.check_guess(guess) 
@@ -78,7 +79,7 @@ class Game
 			@board.render
 		end
 		
-		# guesser lost
+		# Guesser lost
 		puts "The guesser lost!"
 		checker.reveal_secret
 		
@@ -87,8 +88,8 @@ class Game
 	private 
 	
 	def won
-		remaining_rounds = MAX_MISSES - @misses
-		puts "The guesser got it with #{remaining_rounds} to go!"
+		@board.render
+		puts "The guesser got it with #{MAX_MISSES - @misses} to go!"
 		exit
 	end
 	
@@ -108,11 +109,9 @@ if __FILE__ == $PROGRAM_NAME
 	response = gets.chomp.chars.map(&:to_i).first
 	case response
 	when 1
-		p1 = HumanPlayer.new
-		p2 = ComputerPlayer.new
+		p1, p2 = HumanPlayer.new, ComputerPlayer.new
 	when 2
-		p2 = HumanPlayer.new
-		p1 = ComputerPlayer.new
+		p2, p1 = HumanPlayer.new, ComputerPlayer.new
 	else
 		raise "Sorry, not a valid response!"
 	end
