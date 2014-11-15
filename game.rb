@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-# The Game.new method takes guessing_player and checking_player arguments; the game should not treat a computer player any differently than a human player.
-
 require './computer.rb'
 require './human.rb'
 
@@ -48,16 +46,17 @@ class Game
 		@misses = 0
 	end
 	
-	# passes around a board, receives hits array
+	# passes around a board between guesser and checker
 	def run
+		# initialize board with length
 		length = checker.pick_secret_word # picks a word, returns length
 		@board = Board.new(length)
 		guesser.receive_secret_length(@board)
 		
 		until @misses > MAX_MISSES
 			
-			# return letter given current board
-			guess = guesser.make_guess 
+			# return letter 
+			guess = guesser.make_guess
 			
 			# rescue human putting in wrong indices
 			begin
@@ -65,17 +64,18 @@ class Game
 				hits_arr = checker.check_guess(guess) 
 				# update @board if there was a hit; else, increment misses
 				hits_arr.empty? ? @misses +=1 : update_board(hits_arr, guess) 
-			rescue
-				puts "try checking your indices again!"
+			rescue Exception => e
+				puts e.message
 				retry
 			end
 			
 			# break if the board is over
 			won if @board.filled?
 	
-			# if not over, pass updated board arr to guesser 
+			# if not over, pass updated board to guesser 
 			guesser.handle_guess_response(@board)
-	
+			
+			# render new board
 			@board.render
 		end
 		
@@ -94,7 +94,8 @@ class Game
 	end
 	
 	def update_board(hits_arr, guess)
-		raise 'woops, already letters there!' unless hits_arr.all?{|i| @board[i].nil? }
+		# make sure HumanPlayer can't enter indices outside range or already filled
+		raise 'woops, are you sure you entered the right indices?' unless hits_arr.all?{|i| @board[i].nil? } && hits_arr.none?{|i| i >= @board.bar.length }
 		
 		@board.bar.map.with_index do |space, idx|
 			@board[idx] = guess if hits_arr.include? idx
