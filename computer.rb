@@ -1,8 +1,8 @@
-require './game.rb'
-
 class ComputerPlayer
 	
 	DICT = File.readlines('dictionary.txt').map(&:chomp)
+	
+	attr_reader :valid_words
 	
 	def initialize
 		@dictionary = DICT
@@ -29,10 +29,11 @@ class ComputerPlayer
 	end
 	
 	# AS GUESSER
-	# initiate valid_words as guesser
+	# initiate board, valid_words, guessed_letters
 	def receive_secret_length(board)
+		@board = board
 		@valid_words = @dictionary.dup
-			.reject{|word| word.length != board.length }
+			.reject{|word| word.length != board.bar.length }
 		@guessed_letters = []
 	end
 	
@@ -44,6 +45,9 @@ class ComputerPlayer
 			.map{|char, freq| char}
 			.detect{|char| !@guessed_letters.include?(char)}
 		
+		raise "no valid words left! Let's start a new game." unless highest_letter_left
+		
+		@guessed_letters << highest_letter_left
 		highest_letter_left
 	end
 	
@@ -52,9 +56,11 @@ class ComputerPlayer
 		@board = board
 		# remove word if this word[i] != board.bar[i]
 		# remove word if letter matches but count is wrong
-		@board.bar.each_index do |i|
+		@board.bar.each_with_index do |char, i|
+			next if char.nil?
+			
 			@valid_words.delete_if do |word| 
-				word[i] != board[i] || word.count(char) != board.bar.count(char)
+				word[i] != char || word.count(char) != board.bar.count(char)
 			end
 		end
 		
@@ -73,6 +79,5 @@ class ComputerPlayer
 		
 		freq_hash
 	end
-	
 	
 end

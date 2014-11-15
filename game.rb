@@ -29,6 +29,7 @@ class Board
 		@bar[idx] = letter
  	end
 	
+	# read board[2] = 'a'
 	def [](idx)
 		@bar[idx]
 	end
@@ -39,7 +40,7 @@ class Game
 	
 	MAX_MISSES = 6
 	
-	attr_reader :guesser, :checker, :board
+	attr_reader :guesser, :checker
 	
 	def initialize(p1, p2)
 		@guesser = p1
@@ -57,17 +58,24 @@ class Game
 			
 			# return letter given current board
 			guess = guesser.make_guess 
-			# return array of hits given guess
-			hits_arr = checker.check_guess(guess) 
-			# update @board if there was a hit; else, increment misses
-			hits_arr.empty? ? @misses +=1 : update_board(hits_arr, guess) 
+	
+			begin
+				# return array of hits given guess
+				hits_arr = checker.check_guess(guess) 
+				# update @board if there was a hit; else, increment misses
+				hits_arr.empty? ? @misses +=1 : update_board(hits_arr, guess) 
+			rescue
+				puts "try checking your indices again!"
+				retry
+			end
 			
 			# break if the board is over
-			Game.won if @board.filled?
+			won if @board.filled?
 	
 			# if not over, pass updated board arr to guesser 
-			guesser.handle_guess_response(board.bar)
+			guesser.handle_guess_response(@board)
 	
+			@board.render
 		end
 		
 		# guesser lost
@@ -78,14 +86,17 @@ class Game
 	
 	private 
 	
-	def self.won
-		puts "The guesser got it!"
+	def won
+		remaining_rounds = MAX_MISSES - @misses
+		puts "The guesser got it with #{remaining_rounds} to go!"
 		exit
 	end
 	
 	def update_board(hits_arr, guess)
-		@board.bar.map.with_index do |space, idx| 
-			@board.bar[idx] = guess if hits_arr.include? idx
+		raise 'woops, already letters there!' unless hits_arr.all?{|i| @board[i].nil? }
+		
+		@board.bar.map.with_index do |space, idx|
+			@board[idx] = guess if hits_arr.include? idx
 		end
 	end
 	
