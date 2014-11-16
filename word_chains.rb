@@ -52,3 +52,4 @@ end
 
 w = WordChainer.new("dictionary.txt")
 w.run("market", "matter")
+
