@@ -2,7 +2,7 @@ require 'set'
 
 class WordChainer
 	
-	def initialize(dictionary_filename, *args)
+	def initialize(dictionary_filename = 'dictionary.txt')
 		@dictionary = File.readlines(dictionary_filename).map(&:chomp).to_set
 	end
 	
@@ -14,8 +14,28 @@ class WordChainer
 		until @current_words.empty? || @all_seen_words.has_key?(target)
 			explore_current_words
 		end
+
+		build_path_to(target).each {|word| puts word }
 	end
 	
+	private
+
+	def build_path_to(target)
+		path = [target]
+		begin
+			until @all_seen_words[path.last].nil?
+				path << @all_seen_words[path.last]
+			end
+
+			raise "alas, there's no path in my dictionary to #{target}!" if path.size == 1
+		rescue Exception => e
+			p e.message
+			exit
+		end
+
+		path.reverse
+	end
+
 	# build a move tree, populating all_seen_words with word => parent 
 	def explore_current_words
 		new_curr_words = []	# all new words 1, 2, 3...steps away
@@ -50,6 +70,16 @@ class WordChainer
 	
 end
 
-w = WordChainer.new("dictionary.txt")
-w.run("market", "matter")
+if __FILE__ == $PROGRAM_NAME
+	
+	begin
+		source, target = ARGV.shift, ARGV.shift
+		raise "oops, the words have to be the same length!" unless source.length == target.length
+	rescue Exception => e
+		puts e.message
+		exit
+	end
+	w = WordChainer.new
+	w.run(source, target)
+end
 
