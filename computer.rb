@@ -38,7 +38,7 @@ class ComputerPlayer
 		@guessed_letters = []
 	end
 	
-	# return most frequent letter in valid_words not guessed before
+	# return most frequent letter in valid words not guessed before
 	def make_guess
 		begin
 			highest_letter_left = freq_hash
@@ -47,7 +47,7 @@ class ComputerPlayer
 				.map{|char, freq| char}
 				.detect{|char| !@guessed_letters.include?(char)}
 
-			raise "Aw, damn! Looks like I got nothin' left in my dictionary. Let's start a new game." unless highest_letter_left
+			raise "Aw, damn! Got nothin' left. Let's start a new game." unless highest_letter_left
 		rescue Exception => e
 			puts e.message
 			exit

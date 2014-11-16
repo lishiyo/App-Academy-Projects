@@ -94,8 +94,7 @@ class Game
 	end
 	
 	def update_board(hits_arr, guess)
-		# make sure HumanPlayer can't enter indices outside range or already filled
-		raise 'woops, are you sure you entered the right indices?' unless hits_arr.all?{|i| @board[i].nil? } && hits_arr.none?{|i| i >= @board.bar.length }
+		raise 'woops, you sure your indices were right?' unless hits_arr.all?{|i| @board[i].nil? } && hits_arr.none?{|i| i >= @board.bar.length }
 		
 		@board.bar.map.with_index do |space, idx|
 			@board[idx] = guess if hits_arr.include? idx
@@ -116,7 +115,8 @@ if __FILE__ == $PROGRAM_NAME
 	else
 		raise "Sorry, not a valid response!"
 	end
-	rescue
+	rescue Exception => e
+		puts e.message
 		retry
 	end
 	
