@@ -2,13 +2,14 @@
 
 ## Hangman
 
-To play, just run as a script:
+To play, just run the script:
 
-`ruby game.rb`
+	`ruby game.rb`
 
 * **Phase I: You vs Computer**
 
-	The computer has picked a random word! Guess what it is - you have six misses before Hangman!
+	The computer picks a random word from its dictionary. Guess what it is before you're hanged!
 
-* Phase II: Computer Pwns You
-> From a 40k word dictionary...
+* **Phase II: Computer Pwns You**
+
+	Just tell the computer how long your word is. The computer has ~40k words in its dictionary - as long as your word is actually in there, it's surprisingly tough to beat...
