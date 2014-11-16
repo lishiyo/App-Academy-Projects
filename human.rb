@@ -1,8 +1,5 @@
 class HumanPlayer
 	
-	def initialize
-	end
-	
 	# AS GUESSER
 	
 	def receive_secret_length(board)
@@ -15,9 +12,10 @@ class HumanPlayer
 		
 		begin
 			letter = gets.chomp.downcase	
-			raise "oops, try again! Must have guessed that before!" unless (letter =~ /[a-z]/ && !@guessed_letters.include?(letter))
+			raise "oops, try again! Maybe you guessed that before?" unless (letter =~ /[a-z]/ && !@guessed_letters.include?(letter))
 		rescue Exception => e
 			puts e.message
+			puts "#{@guessed_letters}"
 			retry
 		end
 		
@@ -26,7 +24,6 @@ class HumanPlayer
 	end
 	
 	def handle_guess_response(board)
-		#board.render
 	end
 	
 	# AS CHECKER
@@ -48,7 +45,7 @@ class HumanPlayer
 	
 	def check_guess(guess)
 		puts "Computer guessed: #{guess}."
-		puts "Which indices, if any does letter occur at? For example, type in 1 2 if the guess was 'p' and your word was 'apple'. If none, hit enter."
+		puts "Which indices, if any does #{guess} occur at? For example, type in 1 2 if the guess was 'p' and your word was 'apple'. If none, hit enter."
 		
 		begin
 			response = gets.chomp
@@ -65,7 +62,7 @@ class HumanPlayer
 	end
 	
 	def reveal_secret
-		puts "a'ight, squirt. What was it?"
+		puts "A'ight, squirt. What was it?"
 		secret = gets.chomp
 		puts "Looks like it was #{secret}!"
 	end

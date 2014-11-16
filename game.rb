@@ -65,15 +65,15 @@ class Game
 				hits_arr = checker.check_guess(guess) 
 				# update @board if there was a hit; else, increment misses
 				hits_arr.empty? ? @misses +=1 : update_board(hits_arr, guess) 
-			rescue
-				puts "try checking your indices again!"
+			rescue Exception => e
+				puts e.message
 				retry
 			end
 			
 			# break if the board is over
 			won if @board.filled?
 	
-			# if not over, pass updated board arr to guesser 
+			# if not over, pass updated board to guesser 
 			guesser.handle_guess_response(@board)
 	
 			@board.render
@@ -94,7 +94,7 @@ class Game
 	end
 	
 	def update_board(hits_arr, guess)
-		raise 'woops, already letters there!' unless hits_arr.all?{|i| @board[i].nil? }
+		raise 'woops, you sure your indices were right?' unless hits_arr.all?{|i| @board[i].nil? } && hits_arr.none?{|i| i >= @board.bar.length }
 		
 		@board.bar.map.with_index do |space, idx|
 			@board[idx] = guess if hits_arr.include? idx
@@ -115,7 +115,8 @@ if __FILE__ == $PROGRAM_NAME
 	else
 		raise "Sorry, not a valid response!"
 	end
-	rescue
+	rescue Exception => e
+		puts e.message
 		retry
 	end
 	

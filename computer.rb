@@ -2,8 +2,6 @@ class ComputerPlayer
 	
 	DICT = File.readlines('dictionary.txt').map(&:chomp)
 	
-	attr_reader :valid_words
-	
 	def initialize
 		@dictionary = DICT
 	end
@@ -37,18 +35,22 @@ class ComputerPlayer
 		@guessed_letters = []
 	end
 	
-	# return most frequent letter in valid not guessed before
+	# return most frequent letter in valid words not guessed before
 	def make_guess
-		highest_letter_left = freq_hash
-			.sort_by{|k, v| v}
-			.reverse
-			.map{|char, freq| char}
-			.detect{|char| !@guessed_letters.include?(char)}
-		
-		raise "no valid words left! Let's start a new game." unless highest_letter_left
-		
-		@guessed_letters << highest_letter_left
-		highest_letter_left
+		begin
+			highest_letter_left = freq_hash
+				.sort_by{|k, v| v}
+				.reverse
+				.map{|char, freq| char}
+				.detect{|char| !@guessed_letters.include?(char)}
+			raise "Aw, damn! Got nothin' left. Let's start a new game." unless highest_letter_left
+		rescue Exception => e
+			puts e.message
+			exit
+		else
+			@guessed_letters << highest_letter_left
+			highest_letter_left
+		end
 	end
 	
 	# pare down valid words given new board ['a', nil, 'p', nil, 'e']
