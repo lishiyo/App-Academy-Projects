@@ -1,10 +1,14 @@
 class Board
   attr_reader :size, :grid
 
-  def initialize (size = 9, number_bombs = 10)
+  DIFFICULTIES = {e: [9, 10],
+                  m: [16, 40],
+                  h: [30, 180]}
+
+  def initialize (difficulty)
+    @size = DIFFICULTIES[difficulty].first
     @grid = create_grid(size)
-    @size = size
-    @number_bombs = number_bombs
+    @number_bombs = DIFFICULTIES[difficulty].last
 
     add_bombs_to_grid
   end
@@ -31,7 +35,7 @@ class Board
     placed_bombs = 0
     raise "Too many bombs!" if @number_bombs > (@size ** 2)
     until placed_bombs == @number_bombs
-      random_tile = self[[rand(9), rand(9)]]
+      random_tile = self[[rand(@size), rand(@size)]]
       unless random_tile.bombed?
         random_tile.bombed = true
         placed_bombs += 1
@@ -110,14 +114,14 @@ class Tile
 
   def to_s
     if bombed? && revealed?
-      "☠ "
+      "☠".ljust(4)
     elsif flagged?
-      "⚑ "
+      "⚑".ljust(4)
     elsif revealed?
       bomb_count = neighbor_bomb_count
-      "#{bomb_count.zero? ? "□" : bomb_count} "
+      "#{bomb_count.zero? ? "□" : bomb_count}".ljust(4)
     else
-      "■ "
+      "■".ljust(4)
     end
   end
 

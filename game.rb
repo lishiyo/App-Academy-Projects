@@ -5,8 +5,8 @@ class Game
 
   attr_reader :board
 
-  def initialize
-    @board = Board.new
+  def initialize(difficulty = :e)
+    @board = Board.new(difficulty)
     load
     run_game
   end
@@ -47,6 +47,7 @@ class Game
     when "d" then delete_save
     when "r" then board[position].reveal
     when "f" then board[position].flag
+    when "n" then finish_game
     when "q"
       save
       exit
@@ -62,13 +63,13 @@ class Game
   end
 
   def render
-    print "  "
+    print "".ljust(4)
     board.grid.length.times do |col_i|
-      print "#{col_i} "
+      print "#{col_i}".ljust(4)
     end
     print "\n"
     board.grid.each_with_index do |row, row_i|
-      print "#{row_i} "
+      print "#{row_i}".ljust(4)
       row.each do |tile|
         print tile
       end
@@ -129,9 +130,19 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   loop do
-    game = Game.new
-    game.run_game
-    puts "Play again? (y/n)"
-    break if gets.chomp == "n"
+    unless File.exist?('minesweeper_saved.txt')
+      puts "Which difficulty level would you like to play? (e/m/h)"
+      difficulty = gets.chomp.downcase
+      if difficulty =~ /^([emh])$/i
+        game = Game.new(difficulty.to_sym)
+      else
+        puts "Invalid difficulty level. Type in e, m, or h."
+      end
+    else
+      game = Game.new
+      game.run_game
+      puts "Play again? (y/n)"
+      break if gets.chomp == "n"
+    end
   end
 end
