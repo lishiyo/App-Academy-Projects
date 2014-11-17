@@ -3,6 +3,7 @@ Minesweeper
 
 SETUP
 ==============
+
 - Run "gem install colorize"
 - Run "ruby game.rb" in your terminal program of choice
 
