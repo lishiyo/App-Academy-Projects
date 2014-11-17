@@ -1,3 +1,5 @@
+require "colorize"
+
 class Board
   attr_reader :size, :grid
 
@@ -114,14 +116,14 @@ class Tile
 
   def to_s
     if bombed? && revealed?
-      "☠".ljust(4)
+      "◉".ljust(4).colorize(:red).blink
     elsif flagged?
-      "⚑".ljust(4)
+      "⚑".ljust(4).colorize(:blue)
     elsif revealed?
       bomb_count = neighbor_bomb_count
-      "#{bomb_count.zero? ? "□" : bomb_count}".ljust(4)
+      bomb_count.zero? ? "□".ljust(4).colorize(:light_white) : "#{bomb_count}".ljust(4)
     else
-      "■".ljust(4)
+      "■".ljust(4).colorize(:light_black)
     end
   end
 

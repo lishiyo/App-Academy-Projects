@@ -3,6 +3,7 @@ Minesweeper
 
 SETUP
 ==============
+- Run "gem install colorize"
 - Run "ruby game.rb" in your terminal program of choice
 
 CONFIGURATION
@@ -23,4 +24,5 @@ CONTROLS
 REQUIREMENTS
 ================
 - A working computer with a terminal program
+- The colorize gem
 - A winning attitude
