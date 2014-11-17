@@ -82,6 +82,14 @@ class Tile
     end
   end
 
+  def reveal
+    @revealed = true
+    return if self.bombed?
+    if neighbor_bomb_count == 0
+      neighbors.each(&:reveal)
+    end
+  end
+
   def bombed?
     @bombed
   end

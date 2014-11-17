@@ -8,7 +8,11 @@ class Game
 
   def run_game
     @board = Board.new
-    render
+    loop do
+      render
+      position = gets.chomp.split(" ").map(&:to_i)
+      @board[position[0], position[1]].reveal
+    end
   end
 
   def render
@@ -20,7 +24,7 @@ class Game
           print "⚑ "
         elsif tile.revealed?
           bomb_count = tile.neighbor_bomb_count
-          print "#{bomb_count.zero? ? □ : bomb_count}"
+          print "#{bomb_count.zero? ? "□" : bomb_count} "
         else
           print "■ "
         end
