@@ -19,10 +19,19 @@ class Board
 
   end
 
+  def [] (pos)
+    @grid[pos[0]][pos[1]]
+  end
+
+  def inspect
+  end
+
+  private
   def add_bombs_to_grid
     placed_bombs = 0
+    raise "Too many bombs!" if @number_bombs > (@size ** 2)
     until placed_bombs == @number_bombs
-      random_tile = self[rand(9), rand(9)]
+      random_tile = self[[rand(9), rand(9)]]
       unless random_tile.bombed?
         random_tile.bombed = true
         placed_bombs += 1
@@ -32,18 +41,7 @@ class Board
     nil
   end
 
-  def [] (row, col)
-    @grid[row][col]
-  end
 
-  private
-  def inspect
-    grid.map do |row|
-      row.map do |tile|
-        tile.bombed?
-      end
-    end
-  end
 end
 
 class Tile
@@ -66,9 +64,10 @@ class Tile
     INCREMENTS.each do |increment|
       row = position[0] + increment[0]
       col = position[1] + increment[1]
+      new_position = [row, col]
       if row.between?(0, @board.size - 1) &&
         col.between?(0, @board.size - 1)
-        neighbors << @board[row,col]
+        neighbors << @board[new_position]
       end
     end
 
@@ -77,8 +76,7 @@ class Tile
 
   def neighbor_bomb_count
     neighbors.reduce(0) do |count, neighbor|
-      count += 1 if neighbor.bombed?
-      count
+      count + (neighbor.bombed? ? 1 : 0)
     end
   end
 
@@ -94,7 +92,7 @@ class Tile
 
   def flag
     @flagged = true
-    
+
     nil
   end
 
@@ -110,7 +108,19 @@ class Tile
     @revealed
   end
 
-  private
+  def to_s
+    if bombed? && revealed?
+      "☠ "
+    elsif flagged?
+      "⚑ "
+    elsif revealed?
+      bomb_count = neighbor_bomb_count
+      "#{bomb_count.zero? ? "□" : bomb_count} "
+    else
+      "■ "
+    end
+  end
+
   def inspect
   end
 
