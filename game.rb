@@ -32,7 +32,7 @@ class Game
     puts "For example, to reveal position (1,2) you should type 'r 1 2'"
     puts "If you ever want to save, just type s."
     puts "If you ever want to delete your save, type d."
-    puts "HAVE FUN!"
+    puts "HAVE FUN!\n"
   end
 
   def play_turn
