@@ -12,8 +12,14 @@ class Game
     @board = Board.new
     until over?
       render
-      position = gets.chomp.split(" ").map(&:to_i)
-      @board[position[0], position[1]].reveal
+      input = gets.chomp.split(" ")
+      if input[0] == "r"
+        @board[input[1].to_i, input[2].to_i].reveal
+      elsif input[0] == 'f'
+        @board[input[1].to_i, input[2].to_i].flag
+      else
+        puts "Can you please do it right next time? -_-;;"
+      end
     end
 
     finish_game
@@ -52,7 +58,19 @@ class Game
   end
 
   def finish_game
-    puts won? ? "You won. Play again? (y/n)" : "You lost. Play again? (y/n)"
+    if won?
+      @board.grid.flatten.each do |tile|
+        tile.flagged = true if tile.bombed?
+      end
+      render
+      puts "You won. Play again? (y/n)"
+    else
+      @board.grid.flatten.each do |tile|
+        tile.revealed = true if tile.bombed?
+      end
+      render
+      puts "You lost. Play again? (y/n)"
+    end
     run_game if gets.chomp == "y"
   end
 end
