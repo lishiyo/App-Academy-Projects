@@ -28,8 +28,14 @@ class Game
   private
 
   def render
+    print "  "
+    @board.grid.length.times do |col_i|
+      print "#{col_i} "
+    end
+    print "\n"
     @board.grid.each_with_index do |row, row_i|
-      row.each_with_index do |tile, col_i|
+      print "#{row_i} "
+      row.each_with_index do |tile, col_i|    
         if tile.bombed? && tile.revealed?
           print "☠ "
         elsif tile.flagged?
