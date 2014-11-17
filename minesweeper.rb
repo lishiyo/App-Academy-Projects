@@ -1,9 +1,12 @@
 class Board
-  attr_reader :size
+  attr_reader :size, :grid
 
-  def initialize (size = 9)
+  def initialize (size = 9, number_bombs = 10)
     @grid = Board.create_grid(size)
     @size = size
+    @number_bombs = number_bombs
+
+    add_bombs_to_grid
   end
 
   def self.create_grid(size)
@@ -13,10 +16,20 @@ class Board
         Tile.new(self, [row_i, col_i])
       end
     end
+
   end
 
-  def seed_grid
+  def add_bombs_to_grid
+    placed_bombs = 0
+    until placed_bombs == @number_bombs
+      random_tile = self[rand(9), rand(9)]
+      unless random_tile.bombed
+        random_tile.bombed = true
+        placed_bombs += 1
+      end
+    end
 
+    nil
   end
 
   def [] (row, col)
@@ -25,6 +38,11 @@ class Board
 
   private
   def inspect
+    # grid.map do |row|
+    #   row.map do |tile|
+    #     tile.bombed
+    #   end
+    # end
   end
 end
 
