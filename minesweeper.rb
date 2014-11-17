@@ -121,7 +121,11 @@ class Tile
       "⚑".ljust(4).colorize(:blue)
     elsif revealed?
       bomb_count = neighbor_bomb_count
-      bomb_count.zero? ? "□".ljust(4).colorize(:light_white) : "#{bomb_count}".ljust(4)
+      if bomb_count.zero?
+        "□".ljust(4).colorize(:light_white)
+      else
+        "#{bomb_count}".ljust(4).colorize(:light_black)
+      end
     else
       "■".ljust(4).colorize(:light_black)
     end
