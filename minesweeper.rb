@@ -3,7 +3,7 @@ class Board
 
   DIFFICULTIES = {e: [9, 10],
                   m: [16, 40],
-                  h: [30, 180]}
+                  h: [30, 160]}
 
   def initialize (difficulty)
     @size = DIFFICULTIES[difficulty].first
