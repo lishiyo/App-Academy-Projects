@@ -1,3 +1,4 @@
+require 'yaml'
 require './minesweeper.rb'
 
 class Game
@@ -6,6 +7,7 @@ class Game
 
   def initialize
     @board = Board.new
+    load
     run_game
   end
 
@@ -26,6 +28,8 @@ class Game
     puts "To flag a position, begin your input with an f"
     puts "Then put which position you would like to reveal/flag"
     puts "For example, to reveal position (1,2) you should type 'r 1 2'"
+    puts "If you ever want to save, just type s."
+    puts "If you ever want to delete your save, type d."
     puts "HAVE FUN!"
   end
 
@@ -36,16 +40,20 @@ class Game
     input = gets.chomp.split(" ")
     position = [input[1], input[2]].map(&:to_i)
     unless position.all? { |num| num.between?(0, @board.grid.size - 1) }
-      raise "Invalid Position"
+      raise RuntimeError, "Invalid Position"
     end
-    if input[0] == "r"
-      board[position].reveal
-    elsif input[0] == 'f'
-      board[position].flag
+    case input[0]
+    when "s" then save
+    when "d" then delete_save
+    when "r" then board[position].reveal
+    when "f" then board[position].flag
+    when "q"
+      save
+      exit
     else
       puts "Can you please do it right next time? -_-;;"
     end
-    rescue Exception => e
+    rescue RuntimeError => e
       puts e.message
       retry
     end
@@ -97,6 +105,25 @@ class Game
       render
       puts "You lost."
     end
+    delete_save
+  end
+
+
+  def save
+    f = File.open('minesweeper_saved.txt', "w")
+    f.write(@board.to_yaml)
+    f.close
+  end
+
+  def load
+    if File.exist?('minesweeper_saved.txt')
+      saved_game = File.read('minesweeper_saved.txt')
+      @board = YAML.load(saved_game)
+    end
+  end
+
+  def delete_save
+    File.delete("minesweeper_saved.txt") if File.exist?("minesweeper_saved.txt")
   end
 end
 

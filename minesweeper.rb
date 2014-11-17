@@ -81,7 +81,7 @@ class Tile
   end
 
   def reveal
-    return if self.revealed?
+    return if self.revealed? || self.flagged?
     @revealed = true
     return if self.bombed?
     if neighbor_bomb_count == 0
@@ -91,7 +91,7 @@ class Tile
   end
 
   def flag
-    @flagged = true
+    @flagged = flagged? ? false : true
 
     nil
   end
