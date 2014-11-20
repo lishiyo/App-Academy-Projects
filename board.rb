@@ -1,6 +1,5 @@
 require_relative 'piece'
 
-
 class Board
 
 	COLOR_ROWS = {
@@ -16,23 +15,25 @@ class Board
 	end
 
 	def [](pos)
-		raise CheckersError.new("Not in board bounds!") unless Board.in_bounds?(pos)
-
 		x, y = pos[0], pos[1]
 		@grid[x][y]
 	end
 
-	def []=(pos, mark)
-		raise CheckersError.new("Not in board bounds!") unless Board.in_bounds?(pos)
-
+	def []=(pos, piece)
 		x, y = pos[0], pos[1]
-		@grid[x][y] = mark
+		@grid[x][y] = piece
 	end
 
 	def add_piece(piece, pos)
 		raise CheckersError.new("Position not empty") unless empty?(pos)
 
 		self[pos] = piece
+	end
+
+	def delete_piece(piece, pos)
+		raise CheckersError.new("You don't have a piece there!") if empty?(pos)
+
+		self[pos] = nil
 	end
 
 	def empty?(pos)
