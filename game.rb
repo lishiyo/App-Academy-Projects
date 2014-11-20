@@ -70,7 +70,7 @@ class HumanPlayer < Player
 		puts "Current player: #{color}"
 
 		begin
-			puts "Please enter your move sequence (EX: 9 18 27)."
+			puts "Please enter your move sequence. Use standard notation (EX: 9 18 27)."
 			raw_input = gets.chomp.split
 
 			unless raw_input.all?{|num| Integer(num).between?(1, 32) }

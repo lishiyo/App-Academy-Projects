@@ -45,12 +45,10 @@ class Board
 		pos.all?{|coord| coord.between?(0, 7) }
 	end
 
-	def dup
+	def dup # pass in now_king as parameter
 		duped_board = Board.new(false, self.size) # blank grid
 		pieces.each do |piece| # instantiate new pieces with same pos, color, now_king
-			king_state = piece.now_king
-			dup_piece = piece.class.new(duped_board, piece.pos.dup, piece.color)
-			dup_piece.now_king = king_state
+			piece.class.new(duped_board, piece.pos.dup, piece.color, piece.now_king)
 		end
 
 		duped_board
@@ -71,7 +69,11 @@ class Board
 					str += (space.nil?) ? "   " : space.render
 				end
 			end
-			puts str
+			first_in_row = row_i * 4 + 1
+			notations = (first_in_row .. first_in_row + 3).to_a
+			splits = [notations.take(2), notations.drop(2)]
+				.map{|half| "#{half}".colorize(:light_white) }
+			puts (splits.first.ljust(24) + str + "   " + splits.last.rjust(20))
 		end
 
 		nil
@@ -101,7 +103,7 @@ class Board
 		@grid.each_with_index do |row, row_i|
 			row.each_with_index do |col, col_j|
 				fill_row = Proc.new do |color|
-					@grid[row_i][col_j] = Piece.new(self, [row_i, col_j], color) if (row_i + col_j).odd?
+					Piece.new(self, [row_i, col_j], color) if (row_i + col_j).odd?
 				end
 
 				fill_row.call(COLOR_ROWS[:top]) if row_i.between?(0, 2) # red pieces

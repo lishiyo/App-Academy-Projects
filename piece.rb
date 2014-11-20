@@ -1,4 +1,5 @@
 require_relative 'board'
+require 'colorize'
 
 class CheckersError < StandardError
 end
@@ -12,11 +13,10 @@ class Piece
 	attr_accessor :pos, :color, :now_king
 	attr_reader :board
 
-	def initialize(board, pos, color)
-		@now_king = false
+	def initialize(board, pos, color, now_king = false)
+		@now_king = now_king
 		@board, @pos, @color = board, pos, color
 
-		# put self on board
 		board.add_piece(self, pos)
 	end
 
@@ -30,7 +30,7 @@ class Piece
 		true
 	end
 
-	# should remove the jumped over piece from the Board
+	# removes the jumped over piece from the Board
 	def perform_jump(end_pos)
 		deltas = move_diffs.map{ |x,y| [x * 2, y * 2] }
 		valid_positions = get_valid_pos(deltas)
@@ -53,13 +53,7 @@ class Piece
 		perform_moves!(move_sequence)
 	end
 
-	# 1) one slide, or 2) one+ jumps
-	# If the sequence is one move long, try sliding; if that doesn't work, try jumping
-	# If the sequence is multiple moves long, every move must be a jump.
-	# Raise InvalidMoveError if a move in the sequence fails.
 	def perform_moves!(move_sequence)
-		# move_sequence = [[2,1], [3,2]] => array of positions
-
 		if move_sequence.size == 1 # one move, slide or jump
 			end_pos = move_sequence.first
 			raise InvalidMoveError unless (perform_slide(end_pos) || perform_jump(end_pos))
@@ -95,7 +89,7 @@ class Piece
 		if now_king
 			color == :black ? " ♚ " : " ♔ "
 		else
-			color == :black ? " ☻ " : " ☺ "
+			color == :black ? " ☻ " : " ☻ ".colorize(:red)
 		end
 	end
 
