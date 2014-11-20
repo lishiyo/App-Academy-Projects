@@ -1,4 +1,5 @@
 require_relative 'piece'
+require 'colorize'
 
 class Board
 
@@ -46,23 +47,50 @@ class Board
 
 	def dup
 		duped_board = Board.new(false, self.size) # blank grid
-		pieces.each do |piece| # instantiate new pieces with same pos and color
-			piece.class.new(duped_board, piece.pos.dup, piece.color)
+		pieces.each do |piece| # instantiate new pieces with same pos, color, now_king
+			king_state = piece.now_king
+			piece = piece.class.new(duped_board, piece.pos.dup, piece.color)
+			piece.now_king = king_state
 		end
 
 		duped_board
 	end
 
-	def inspect
-		@grid.each do |row|
-			puts "#{ row.map{ |square| square.nil? ? square : square.color } }"
+	# def inspect
+	# 	@grid.each do |row|
+	# 		puts "#{ row.map{ |square| square.nil? ? square : square.color } }"
+	# 	end
+	# end
+
+	# color wins if only its colors are left on board
+	def won?(color)
+
+	end
+
+	def render
+		@grid.each_with_index do |row, row_i|
+			str = ""
+			row.each_with_index do |space, col_i|
+				if (row_i + col_i).odd? # dark background
+					str += (space.nil?) ? darken_bg("   ") : darken_bg(space.render)
+				else
+					str += (space.nil?) ? "   " : space.render
+				end
+			end
+			puts str
 		end
+		
+		nil
+	end
+
+	def pieces
+		@grid.flatten.compact
 	end
 
 	protected
 
-	def pieces
-		@grid.flatten.compact
+	def darken_bg(str)
+		str.colorize(:background => :light_black)
 	end
 
 	def create_grid(fill_board, size)

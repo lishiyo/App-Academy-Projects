@@ -6,12 +6,6 @@ end
 class InvalidMoveError < CheckersError
 end
 
-class InvalidSlideError < InvalidMoveError
-end
-
-class InvalidJumpError < InvalidMoveError
-end
-
 
 class Piece
 
@@ -53,42 +47,38 @@ class Piece
 
 	# First checks valid_move_seq?
 	# either calls perform_moves! OR raises an InvalidMoveError
-	def perform_moves(*move_sequence)
-		raise InvalidMoveError.new("That move sequence was invalid!") unless valid_move_seq?(*move_sequence)
+	def perform_moves(move_sequence)
+		raise InvalidMoveError.new("That move sequence was invalid!") unless valid_move_seq?(move_sequence)
 
-		perform_moves!(*move_sequence)
+		perform_moves!(move_sequence)
 	end
 
 	# 1) one slide, or 2) one+ jumps
 	# If the sequence is one move long, try sliding; if that doesn't work, try jumping
 	# If the sequence is multiple moves long, every move must be a jump.
 	# Raise InvalidMoveError if a move in the sequence fails.
-	def perform_moves!(*move_sequence)
-		# *move_sequence = [2,1], [3,2] => array of positions
+	def perform_moves!(move_sequence)
+		# move_sequence = [[2,1], [3,2]] => array of positions
 
 		if move_sequence.size == 1 # one move, slide or jump
 			end_pos = move_sequence.first
-			begin
-				raise InvalidMoveError unless perform_slide(end_pos) || perform_jump(end_pos)
-				perform_slide(end_pos) ? perform_slide(end_pos) : perform_jump(end_pos)
-			rescue InvalidSlideError
-				perform_jump(end_pos)
-			rescue InvalidMoveError => e
-				puts e.message
-			end
+			raise InvalidMoveError unless (perform_slide(end_pos) || perform_jump(end_pos))
 		else # must all be jumps
-			move_sequence.each { |end_pos| perform_jump(end_pos) }
+			move_sequence.each do |end_pos|
+				raise InvalidMoveError unless perform_jump(end_pos)
+			end
 		end
 
 	end
 
 	# calls perform_moves! on a *duped* Piece/Board
 	# returns true only if no error is raised
-	def valid_move_seq?(*move_sequence)
+	def valid_move_seq?(move_sequence)
 		begin
 			duped_board = board.dup
-			duped_piece = duped_board[self.pos] # doppleganger on duped_board
-			duped_piece.perform_moves!(*move_sequence)
+			duped_piece = duped_board[pos]
+
+			duped_piece.perform_moves!(move_sequence)
 		rescue InvalidMoveError
 			return false
 		end
@@ -102,7 +92,11 @@ class Piece
 
 	# unicode checkers
 	def render
-
+		if now_king
+			color == :black ? " ♚ " : " ♔ "
+		else
+			color == :black ? " ☻ " : " ☺ "
+		end
 	end
 
 	private
@@ -119,7 +113,7 @@ class Piece
 		posx, posy = pos[0], pos[1]
 		# both empty and in bounds
 		deltas.map{ |(dx, dy)| [posx + dx, posy + dy] }
-			.select{|pos| self.board[pos].nil? && Board.in_bounds?(pos) }
+			.select{|pos| board[pos].nil? && Board.in_bounds?(pos) }
 	end
 
 	# checks to see if piece has reached back row
@@ -132,7 +126,7 @@ class Piece
 		deltas = { red: [[1, 1], [1, -1]], black: [[-1, 1], [-1, -1]] }
 
 		# if king, return both
-		now_king ? (deltas[:red] + deltas[:black]) : deltas[self.color]
+		@now_king ? (deltas[:red] + deltas[:black]) : deltas[self.color]
 	end
 
 
