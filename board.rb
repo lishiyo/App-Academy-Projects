@@ -49,22 +49,16 @@ class Board
 		duped_board = Board.new(false, self.size) # blank grid
 		pieces.each do |piece| # instantiate new pieces with same pos, color, now_king
 			king_state = piece.now_king
-			piece = piece.class.new(duped_board, piece.pos.dup, piece.color)
-			piece.now_king = king_state
+			dup_piece = piece.class.new(duped_board, piece.pos.dup, piece.color)
+			dup_piece.now_king = king_state
 		end
 
 		duped_board
 	end
 
-	# def inspect
-	# 	@grid.each do |row|
-	# 		puts "#{ row.map{ |square| square.nil? ? square : square.color } }"
-	# 	end
-	# end
-
 	# color wins if only its colors are left on board
 	def won?(color)
-
+		pieces.all?{|piece| piece.color == color }
 	end
 
 	def render
@@ -79,12 +73,18 @@ class Board
 			end
 			puts str
 		end
-		
+
 		nil
 	end
 
 	def pieces
 		@grid.flatten.compact
+	end
+
+	def inspect
+		@grid.each do |row|
+			puts "#{ row.map{ |square| square.nil? ? square : square.color } }"
+		end
 	end
 
 	protected
@@ -97,7 +97,6 @@ class Board
 		@grid = Array.new(size) { Array.new(size) }
 		return unless fill_board  # stop here unless place pieces
 		# fill with red and black pieces
-
 
 		@grid.each_with_index do |row, row_i|
 			row.each_with_index do |col, col_j|
