@@ -14,7 +14,6 @@ class Game
 		}
 
 		@current_color = :red
-		@moves = 0
 	end
 
 	def play
@@ -125,7 +124,6 @@ class ComputerPlayer < Player
 	def handle_move_response
 
 	end
-
 
 end
 

@@ -1,5 +1,5 @@
 require 'game'
-require 'game.rb'
+require 'factory_girl'
 
 describe Game do
   subject(:game) { Game.new }
@@ -10,7 +10,7 @@ describe Game do
     end
 
     it "fills the board as default" do
-
+      expect(game.board[0,1]).not_to eq(nil)
     end
 
   end

@@ -84,7 +84,6 @@ class Piece
 		"#{@color}#{@now_king}#{pos}"
 	end
 
-	# unicode checkers
 	def render
 		if now_king
 			color == :black ? " ♚ " : " ♔ "
