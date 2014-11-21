@@ -2,7 +2,8 @@ require 'game'
 require 'factory_girl'
 
 describe Game do
-  subject(:game) { Game.new }
+  subject(:game) { Game.new } # only one allowed
+  
 
   describe "set up" do
     it "creates a size 8x8 board as default" do
@@ -10,7 +11,8 @@ describe Game do
     end
 
     it "fills the board as default" do
-      expect(game.board[0,1]).not_to eq(nil)
+      expect(game.board[[0,1]]).not_to eq(nil)
+      expect(game.board[[7,0]]).not_to eq(nil)
     end
 
   end
