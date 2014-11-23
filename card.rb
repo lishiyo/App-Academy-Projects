@@ -38,7 +38,7 @@ class Card
     :spades   => "♠"
   }
 	
-	attr_reader :suit, :value
+	attr_reader :value, :suit
 	
 	def initialize(value, suit)
 		@suit = suit
@@ -72,6 +72,10 @@ class Card
 	
 	def render
 		"#{CARD_VALUES.key(value)} of #{suit}"
+	end
+
+	def dup
+		Card.new(value, suit)
 	end
 	
 end

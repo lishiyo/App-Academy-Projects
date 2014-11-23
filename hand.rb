@@ -6,12 +6,11 @@ require_relative 'hand_rankings'
 class Hand
 	include HandRankings
 	
-	attr_reader :score, :high_card
-	attr_accessor :cards # for debugging!
+	attr_accessor :cards # for debugging
 	
 	# creates new Hand obj with 5 cards
 	def self.deal_from(deck)
-		cards = deck.take(5) # takes top 5 as arr of Card obj
+		cards = deck.take(5) # takes top 5 as arr of Cards
 		Hand.new(cards)
 	end
 	
@@ -28,7 +27,6 @@ class Hand
 			rankings = HandRankings::RANKINGS
 			my_rank = rankings.index(rank)
 			other_rank = rankings.index(other_hand.rank)
-		
 			my_rank < other_rank ? 1 : -1
 		end
 	end
@@ -44,22 +42,17 @@ class Hand
 		when :full_house # first high of three, then high of pair
 			three = cards.select{ |c| cards.count(c) == 3 }.first
 			other_three = cards.select{ |c| cards.count(c) == 3 }.first
-			return three <=> other_three unless three <=> other_three.zero?
+			return three <=> other_three unless (three <=> other_three).zero?
 			
 			pair, other_pair = pairs.first, other_hand.pairs.first
-			return pair <=> other_pair
+			pair <=> other_pair
 		when multiple_ranks
 			# the non-singles in descending order
-			multiples = cards.select{|c| cards.count(c) > 1}.sort.reverse 
-			other_multiples= other_hand.cards.select{|c| cards.count(c) > 1}.sort.reverse 
-			return compare_cards(multiples, other_multiples) unless compare_cards.zero?
+			return compare_cards(self.multiples, other_hand.multiples) unless compare_cards(self.multiples, other_hand.multiples).zero?
 
 			# else, need to look at single cards (kickers)
-			singles = cards.select{ |c| cards.count(c) == 1 }.sort.reverse 
-			other_singles = other_hands.select{ |c| cards.count(c) == 1 }.sort.reverse
-			return compare_cards(singles, other_singles)
+			compare_cards(self.singles, other_hand.singles)
 		else # straight, straight flush, high card
-			p high_card
 			high_card <=> other_hand.high_card
 		end
 	end
@@ -67,6 +60,10 @@ class Hand
 	# return highest card in hand
 	def high_card 
 		cards.max_by{|c| c.value }
+	end
+	
+	def render 
+		puts cards.map{|c| c.render }.join(", ")
 	end
 	
 	protected
@@ -77,7 +74,7 @@ class Hand
 	# compares two arrays of cards for first tiebreaker
 	def compare_cards(cards1, cards2)
 		cards1.each_index do |i| 
-			sort_score = (cards1[i] <=> cards2.cards[i])
+			sort_score = (cards1[i] <=> cards2[i])
 			return sort_score unless sort_score.zero?
 		end
 		

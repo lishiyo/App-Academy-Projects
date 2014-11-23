@@ -51,23 +51,30 @@ module HandRankings
 	end
 	
 	def two_pair?
-		pairs.size == 2
+		pairs.size == 4
 	end 
 	
 	def one_pair? 
-		pairs.size == 1
+		pairs.size == 2
 	end
 	
 	def high_card? 
 		cards.uniq.size == 5 && !flush?
 	end
 	
-	# cards that are exactly pairs
-	def pairs
-		cards.select{|c| cards.count(c) == 2 }.uniq
+	def multiples # 2, 3, 4 of a kind
+		cards.select{|c| card_values.count(c.value) > 1 }.sort.reverse
+	end
+	
+	def singles
+		cards.select{|c| card_values.count(c.value) == 1 }.sort.reverse
 	end
 	
 	private
+	
+	def pairs
+		cards.select{|c| card_values.count(c.value) == 2 }.sort.reverse
+	end
 	
 	def card_values
 		cards.map{|c| c.value }
