@@ -62,8 +62,9 @@ module HandRankings
 		cards.uniq.size == 5 && !flush?
 	end
 	
-	def multiples # 2, 3, 4 of a kind
-		cards.select{|c| card_values.count(c.value) > 1 }.sort.reverse
+	def multiples # 4, 3, 2 of a kind
+		cards.select{|c| card_values.count(c.value) > 1 }
+		.sort_by{|c| card_values.count(c.value) }.reverse
 	end
 	
 	def singles

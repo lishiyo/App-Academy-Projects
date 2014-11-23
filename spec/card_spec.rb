@@ -7,8 +7,8 @@ describe Card do
 
   describe '#initialize' do
 
-    it 'is created with value and suit' do
-      expect(card.value).to eq(:ace)
+		it 'is created with correct value and suit' do
+      expect(card.value).to eq(14)
       expect(card.suit).to eq(:diamonds)
     end
   end
@@ -28,7 +28,7 @@ describe Card do
 
   describe '#render' do
     it 'should return the proper string represention of card' do
-      expect(card.render).to eq("A♦")
+			expect(card.render).to eq("ACE of DIAMONDS")
     end
   end
 end

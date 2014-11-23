@@ -1,8 +1,11 @@
 require_relative 'card'
 
+class PokerError < StandardError
+end
+
 class Deck
 	
-	attr_reader :cards
+	#attr_reader :cards
 	
 	def self.create_deck
 		cards = []
@@ -20,16 +23,21 @@ class Deck
 	
 	# take n cards off take of deck
 	def take(n)
-		cards.shift(n)
+		raise PokerError.new("not enough cards") if n > self.count
+		@cards.shift(n)
 	end
 	
 	def shuffle
-		cards.shuffle!
-		@deck
+		@cards.shuffle!
+		self
+	end
+	
+	def count
+		@cards.count
 	end
 	
 	def inspect
-		cards.map{|c| c.render }
+		@cards.map{|c| c.render }
 	end
 	
 end

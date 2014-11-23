@@ -34,7 +34,7 @@ class Player
 	end
 	
 	def get_new_hand(deck)
-		@hand = Hand.deal_from(deck) # new hand of 5 cards
+		@hand = Hand.new_hand(deck) # new hand of 5 cards
 	end
 	
 	# game pays out winnings
@@ -93,8 +93,11 @@ class Player
 		discard_cards = discard_idx.reduce([]) do |discards, idx|
 			discards << @hand.cards[idx]
 		end
+		# discard cards
 		discard_cards.each{ |c| @hand.cards.delete(c) }
-		@hand.cards += deck.take(discard_cards.size)
+		# replace with new
+		new_cards = deck.take(discard_cards.size)
+		@hand.cards.push(*new_cards)
 		
 		puts "#{name}'s new hand is:"
 		@hand.render

@@ -2,15 +2,15 @@ require 'rspec'
 require 'deck'
 
 describe Deck do
-  describe "::all_cards" do
-    subject(:all_cards) { Deck.all_cards }
+	describe "::create_deck" do
+		subject(:create_deck) { Deck.create_deck }
 
     it "starts with a count of 52" do
-      expect(all_cards.count).to eq(52)
+			expect(create_deck.count).to eq(52)
     end
 
     it "returns all cards without duplicates" do
-      deduped_cards = all_cards
+			deduped_cards = create_deck
       .map { |card| [card.suit, card.value] }
       .uniq
       .count
@@ -20,21 +20,21 @@ describe Deck do
 
   let(:cards) do
     cards = [
-      Card.new(:spades, :king),
-      Card.new(:spades, :queen),
-      Card.new(:spades, :jack)
+			Card.new(:king, :spades),
+			Card.new(:queen, :spades),
+      Card.new(:jack, :spades)
     ]
   end
 
   describe "#initialize" do
     it "by default fills itself with 52 cards" do
       deck = Deck.new
-      expect(deck.count).to eq(52)
+			expect(deck.count).to eq(52)
     end
 
     it "can be initialized with an array of cards" do
       deck = Deck.new(cards)
-      expect(deck.count).to eq(3)
+			expect(deck.count).to eq(3)
     end
   end
 
@@ -46,21 +46,22 @@ describe Deck do
     expect(deck).not_to respond_to(:cards)
   end
 
-  describe "#draw" do
-    # **use the front of the cards array as the top**
+	describe "#take" do
+		
+    # **uses the front of the cards array as the top**
     it "takes cards off the top of the deck" do
-      expect(deck.draw(1)).to eq(cards[0..0])
-      expect(deck.draw(2)).to eq(cards[1..2])
+			expect(deck.take(1)).to eq(cards[0..0])
+			expect(deck.take(2)).to eq(cards[1..2])
     end
 
     it "removes cards from deck on draw" do
-      deck.draw(2)
+			deck.take(2)
       expect(deck.count).to eq(1)
     end
 
     it "doesn't allow you to draw more cards than are in the deck" do
       expect do
-        deck.draw(4)
+				deck.take(4)
       end.to raise_error("not enough cards")
     end
   end
