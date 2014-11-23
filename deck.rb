@@ -23,8 +23,8 @@ class Deck
 		cards.shift(n)
 	end
 	
-	def shuffle!
-		cards.shuffle
+	def shuffle
+		cards.shuffle!
 	end
 	
 	def inspect

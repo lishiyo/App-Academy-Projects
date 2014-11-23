@@ -71,7 +71,7 @@ class Card
 	end
 	
 	def render
-		"#{CARD_VALUES.key(value)} of #{suit}"
+		"#{CARD_VALUES.key(value).upcase} of #{suit.upcase}"
 	end
 
 	def dup

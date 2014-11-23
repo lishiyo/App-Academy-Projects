@@ -31,6 +31,19 @@ class Hand
 		end
 	end
 	
+	# return highest card in hand
+	def high_card 
+		cards.max_by{|c| c.value }
+	end
+	
+	def render 
+		puts self.cards.map{|c| c.render }.join(", ")
+	end
+	
+	protected
+	
+	private 
+	
 	# if equal rank, look at high_card - return -1, 0, 1
 	def tiebreak(other_hand)
 		multiple_ranks = Proc.new{ |rank| [:one_pair, :two_pair, :three_of_a_kind, :four_of_a_kind].include?(rank) }
@@ -56,20 +69,6 @@ class Hand
 			high_card <=> other_hand.high_card
 		end
 	end
-	
-	# return highest card in hand
-	def high_card 
-		cards.max_by{|c| c.value }
-	end
-	
-	def render 
-		puts cards.map{|c| c.render }.join(", ")
-	end
-	
-	protected
-	
-	
-	private 
 	
 	# compares two arrays of cards for first tiebreaker
 	def compare_cards(cards1, cards2)
