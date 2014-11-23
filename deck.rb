@@ -25,6 +25,7 @@ class Deck
 	
 	def shuffle
 		cards.shuffle!
+		@deck
 	end
 	
 	def inspect

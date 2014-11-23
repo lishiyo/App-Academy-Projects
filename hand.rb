@@ -2,6 +2,7 @@ require_relative 'card'
 require_relative 'deck'
 require_relative 'player'
 require_relative 'hand_rankings'
+require 'colorize'
 
 class Hand
 	include HandRankings
@@ -37,7 +38,7 @@ class Hand
 	end
 	
 	def render 
-		puts self.cards.map{|c| c.render }.join(", ")
+		puts self.cards.map{|c| c.render }.join(", ").colorize(:light_yellow)
 	end
 	
 	protected

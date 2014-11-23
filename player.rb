@@ -2,6 +2,7 @@ require_relative 'card'
 require_relative 'deck'
 require_relative 'hand'
 
+
 class PokerError < StandardError
 end
 
@@ -52,17 +53,17 @@ class Player
 	
 	# return how much wish to bet
 	def get_bet
-		puts "#{name}, your current bankroll is #{bankroll}. Your hand:"
+		puts "#{name}, your current bankroll is $#{bankroll}. Your hand:"
 		@hand.render
 		puts "How much do you wish to bet?"
 		
 		begin
 			input = gets.chomp
-			return input if input == 'quit'
+			return input if input == 'fold'
 			raise BadInputError unless input =~ /^\d+$/ 
 			raise BadInputError unless Integer(input).between?(0, bankroll)
 		rescue
-			puts "Bet must be greater than zero and smaller than your current bankroll. If you wish to quit this bet, enter 'quit'."
+			puts "Bet must be greater than zero and smaller than your current bankroll. If you wish to quit and fold on this bet, enter 'fold'."
 			retry
 		end
 		
@@ -71,12 +72,12 @@ class Player
 	
 	# return which card indices to discard (0 to 4, for 1 to 5)
 	def get_discard
+		puts "#{name}, what cards do you wish to discard?" 
 		@hand.render
-		puts "What cards do you wish to discard?" 
 		puts "Choose up to 3 (EX: 1 4). Press enter if you don't want to discard any."
 		begin
 			input = gets.chomp
-			raise BadInputError unless input.split.all? do |num| 
+			raise BadInputError unless input.split.size <= 3 && input.split.all? do |num| 
 				num =~ /^[1-5]$/
 			end
 		rescue
@@ -95,11 +96,15 @@ class Player
 		discard_cards.each{ |c| @hand.cards.delete(c) }
 		@hand.cards += deck.take(discard_cards.size)
 		
+		puts "#{name}'s new hand is:"
+		@hand.render
+		
 		@hand
 	end
 	
 	# returns :fold, :see, or :raise
 	def get_move
+		puts "Your current bankroll is $#{bankroll}, and your hand is:"
 		@hand.render 
 		puts "Do you wish to fold, see the bet, or raise?"
 		begin
