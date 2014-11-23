@@ -20,14 +20,15 @@ class Game
 	end
 	
 	def play
+		puts "The players will be: #{players.map{|p| p.name}.join(", ")}."
 		play_round until game_over?
 	
 		finish_game
 	end
 
-	def add_players(*players)
-		@players += players
-	end
+# 	def add_players(*players)
+# 		@players += players
+# 	end
 
 	def inspect
 		"#{players.map{ |p| p.inspect }.join(", ")}"
@@ -63,7 +64,6 @@ class Game
 		
 		opening_better = player_seats.first
 		curr_high_bet = get_opening_bet(opening_better)
-		raised_player, betted_player = nil, nil
 		
 		until no_raises
 			no_raises = true
@@ -71,7 +71,7 @@ class Game
 		
 			player_seats.each_with_index do |player, i| 
 				next if player.folded?
-				next if player == raised_player || player == betted_player
+				next if player.raised? || player.betted?
 				puts "\nPlayer #{i+1}, #{player.name}'s turn. Current bet: #{curr_high_bet}."
 				move = player.get_move
 				
@@ -82,7 +82,7 @@ class Game
 					begin
 						player.take_bet(curr_high_bet)
 					rescue PokerError # move on to next player 
-						puts "You cannot take a bet greater than your bankroll."
+						puts "You cannot place a bet greater than your bankroll."
 					else
 						puts "#{player.name}'s bankroll is now: #{player.bankroll}."
 						@pot += curr_high_bet
@@ -91,16 +91,18 @@ class Game
 				when :raise
 					begin
 						raise_bet = player.get_bet
-						break if raise_bet == "quit"
-						raise PokerError unless raise_bet > curr_high_bet
-					rescue PokerError
+						raise BadInputError unless raise_bet > curr_high_bet
+						raise PokerError if raise_bet > player.bankroll
+					rescue BadInputError
 						puts "You must raise higher than the current bet."
-						retry
+						retry 
+					rescue PokerError
+						puts "You cannot afford this bet."
 					else
 						curr_high_bet = raise_bet
 						player.take_bet(curr_high_bet)
 						@pot += curr_high_bet
-						raised_player = player
+						player.raised = true
 						no_raises = false
 					end
 				end
@@ -157,7 +159,7 @@ class Game
 		end
 	end
 
-	def game_over? # only one remaining or deck is gone
+def game_over? # only one remaining or deck is empty
 		players.one?{|p| p.bankroll > 0} || @deck.empty?
 	end
 	
@@ -166,4 +168,15 @@ class Game
 		puts "The winner is #{winner.name}, with $#{winner.net_winnings} in total winnings. CONGRATS!"
 		exit
 	end
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+	p1 = Player.new("Connie", 1000)
+	p2 = Player.new("Jack", 800)
+	p3 = Player.new("Drea", 1200)
+	p4 = Player.new("Max", 700)
+	g = Game.new(p1, p2, p3, p4)
+	g.play 
+	
 end

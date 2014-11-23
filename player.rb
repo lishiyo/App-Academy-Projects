@@ -11,7 +11,7 @@ end
 class Player
 	
 	attr_reader :name, :bankroll, :net_winnings
-	attr_accessor :folded, :hand
+	attr_accessor :folded, :hand, :raised, :betted
 	
 	def initialize(name, bankroll)
 		@name = name 
@@ -22,6 +22,14 @@ class Player
 	
 	def folded? 
 		@folded 
+	end
+	
+	def raised? 
+		@raised
+	end
+	
+	def betted?
+		@betted
 	end
 	
 	def get_new_hand(deck)
