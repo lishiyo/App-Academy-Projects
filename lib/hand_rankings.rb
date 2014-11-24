@@ -7,7 +7,7 @@ module HandRankings
 	
 	RANKINGS = [:straight_flush, :four_of_a_kind, :full_house, :flush, :straight, :three_of_a_kind, :two_pair, :one_pair, :high_card]
 	
-	# return sym of highest ranking possible (EX: :one_pair)
+	# return method of highest ranking possible (EX: :one_pair)
 	def rank
 		RANKINGS.each do |ranking|
 			return ranking if self.send("#{ranking}?".to_sym)
