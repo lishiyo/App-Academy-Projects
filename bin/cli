@@ -1,0 +1,65 @@
+#press ctrl+shift+L to change syntax highlighting :O
+
+puts "Input your email: "
+email = gets.chomp
+
+puts "What do you want to do?"
+puts "0. Create shortened URL"
+puts "1. Visit shortened URL"
+puts "2. Search for the most popular links in a tag"
+
+if User.find_by_email(email)
+  u = User.find_by_email(email)
+else
+  u = User.create!(email: email)
+end
+
+choice = ''
+until choice =~ /[0-2]/
+  p 'enter a choice:'
+  choice = gets.chomp
+end
+
+case choice.to_i
+when 0
+  puts "Type in your long url"
+  long_url = gets.chomp
+  su = ShortenedUrl.create_for_user_and_long_url!(u, long_url)
+
+  puts "Please select one or more tags for your link by typing in the tag name from this link:"
+  all_topics = TagTopic.topics.map{|t| t.topic }
+  p all_topics
+  tags = gets.chomp.split.select{|topic| all_topics.include?(topic) }
+  tag_ids = tags.map{|t| TagTopic.find_by_topic(t).id }
+
+  tag_ids.each do |id|
+    Tagging.create!(shortened_url_id: su.id, tag_id: id)
+  end
+
+  puts "Short url is: #{su.short_url}"
+when 1
+  puts "type in the shortened URL"
+  short_url = gets.chomp
+  su = ShortenedUrl.find_by_short_url(short_url)
+  long_url = su.long_url
+  Launchy.open(long_url)
+  Visit.record_visit!(u, su)
+when 2
+  begin
+    puts "please enter the tag to search on:"
+    tag = gets.chomp
+    raise 'no such tag' unless TagTopic.topics.map(&:topic).include?(tag)
+  rescue
+    retry
+  end
+
+
+  begin
+    puts "how many links do you want to see?"
+    n = Integer(gets.chomp)
+  rescue
+    retry
+  end
+
+  puts TagTopic.find_by_topic(tag).most_popular_urls(n)
+end
