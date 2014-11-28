@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20141126182740) do
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
 
   create_table "users", force: true do |t|
+    t.string   "name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"

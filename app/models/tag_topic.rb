@@ -8,12 +8,13 @@ class TagTopic < ActiveRecord::Base
   def self.topics
     TagTopic.all
   end
+	
+	def most_popular_for_tag
+		shortened_urls.sort_by{|su| su.visits }.reverse
+	end
 
-  def most_popular_urls(n)
-    ShortenedUrl.joins(:visits)
-                .group('shortened_urls.id')
-                .order('COUNT(*) DESC')
-                .map(&:long_url)
+  def TagTopic.most_popular_urls(n)
+    ShortenedUrl.joins(:visits).group('shortened_urls.id').order('COUNT(*) DESC')
   end
 
 end

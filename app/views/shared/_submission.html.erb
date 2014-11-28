@@ -1,0 +1,13 @@
+<%= form_for @shortened_url, url: {action: "create"} do |f| %>
+  <div class="field">
+		<%= f.text_field :long_url, class: 'form-control', placeholder: "a long url" %>
+  </div>
+	<div class="field">
+		<%= f.text_field :name, class: 'form-control', placeholder: "a long url" %>
+  </div>
+	<div class="field">
+		<%= f.text_field :email, class: 'form-control', placeholder: "a long url" %>
+  </div>
+  <%= f.submit "Post", class: "btn btn-primary" %>
+  
+<% end %>

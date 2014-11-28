@@ -1,0 +1,19 @@
+<li id="<%= shortened_url.id %>">
+	<span class="submitter"><%= link_to shortened_url.long_url, "http://#{shortened_url.long_url}" %></span>
+  <span class="url">
+		| <%= shortened_url.short_url %> | 
+	</span>
+	<span class="tag_topics">
+		<%- shortened_url.tag_topics.each do |tt| %>
+			<%= link_to tt.topic, tag_topic_path(tt) %>
+		<% end.join(" ") unless shortened_url.tag_topics.nil?  %>
+		
+	</span>
+  <span class="timestamp">
+<!--     submitted <%= time_ago_in_words(shortened_url.created_at) %> ago. -->
+		| <%= link_to "delete", shortened_url, method: :delete,
+                                       data: {  },
+                                       title: shortened_url.long_url %>
+  </span>
+		
+</li>

@@ -1,7 +1,7 @@
 class ShortenedUrl < ActiveRecord::Base
   validates :submitter_id, presence: true
   validates :long_url, presence: true, length: { maximum: 1024 }
-  validate :recent_submissions_cannot_be_more_than_five
+ # validate :recent_submissions_cannot_be_more_than_five
 
   belongs_to(:submitter, :class_name => 'User', :foreign_key => :submitter_id,
              :primary_key => :id)
@@ -9,6 +9,7 @@ class ShortenedUrl < ActiveRecord::Base
   has_many(:visits, class_name: "Visit", foreign_key: :shortened_url_id,
             primary_key: :id)
   has_many :visitors, -> { distinct }, through: :visits, source: :visitor
+	
   has_many(:taggings, class_name: 'Tagging', foreign_key: :shortened_url_id,
             primary_key: :id)
   has_many :tag_topics, through: :taggings, source: :tag_topic
@@ -28,11 +29,13 @@ class ShortenedUrl < ActiveRecord::Base
 
   # total number of visits
   def num_clicks
+		# Visit.joins(:shortened_url).joins(:visitor).group("shortened_urls.id").where(:shortened_url_id => self.id).count("visits.id").value
     visits.count
   end
 
   # total number of unique visitors
   def num_uniques
+		# User.joins(:submitted_urls).joins(:visits).group("shortened_urls.id").distinct.count
     visitors.count
   end
 
@@ -43,7 +46,7 @@ class ShortenedUrl < ActiveRecord::Base
 
   private
   def recent_submissions_cannot_be_more_than_five
-    if User.find_by_id(submitter_id).recent_submissions.count >= 5
+    if User.find(submitter_id).recent_submissions.count >= 5
       errors[:submissions] << "can't be more than five in one minute."
     end
   end
