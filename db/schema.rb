@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20141126182740) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "shortened_urls", force: true do |t|
     t.string   "short_url"
     t.string   "long_url"
@@ -21,8 +24,8 @@ ActiveRecord::Schema.define(version: 20141126182740) do
     t.datetime "updated_at"
   end
 
-  add_index "shortened_urls", ["short_url"], name: "index_shortened_urls_on_short_url", unique: true
-  add_index "shortened_urls", ["submitter_id"], name: "index_shortened_urls_on_submitter_id"
+  add_index "shortened_urls", ["short_url"], name: "index_shortened_urls_on_short_url", unique: true, using: :btree
+  add_index "shortened_urls", ["submitter_id"], name: "index_shortened_urls_on_submitter_id", using: :btree
 
   create_table "tag_topics", force: true do |t|
     t.string   "topic"
@@ -30,7 +33,7 @@ ActiveRecord::Schema.define(version: 20141126182740) do
     t.datetime "updated_at"
   end
 
-  add_index "tag_topics", ["topic"], name: "index_tag_topics_on_topic", unique: true
+  add_index "tag_topics", ["topic"], name: "index_tag_topics_on_topic", unique: true, using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "shortened_url_id"
@@ -39,8 +42,8 @@ ActiveRecord::Schema.define(version: 20141126182740) do
     t.datetime "updated_at"
   end
 
-  add_index "taggings", ["shortened_url_id"], name: "index_taggings_on_shortened_url_id"
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
+  add_index "taggings", ["shortened_url_id"], name: "index_taggings_on_shortened_url_id", using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -49,7 +52,7 @@ ActiveRecord::Schema.define(version: 20141126182740) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   create_table "visits", force: true do |t|
     t.integer  "shortened_url_id"
@@ -58,7 +61,7 @@ ActiveRecord::Schema.define(version: 20141126182740) do
     t.datetime "updated_at"
   end
 
-  add_index "visits", ["shortened_url_id"], name: "index_visits_on_shortened_url_id"
-  add_index "visits", ["visitor_id"], name: "index_visits_on_visitor_id"
+  add_index "visits", ["shortened_url_id"], name: "index_visits_on_shortened_url_id", using: :btree
+  add_index "visits", ["visitor_id"], name: "index_visits_on_visitor_id", using: :btree
 
 end

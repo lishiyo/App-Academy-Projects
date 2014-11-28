@@ -14,7 +14,7 @@ class ShortenedUrl < ActiveRecord::Base
             primary_key: :id)
 	# SELECT taggings.* FROM taggings WHERE self.id = taggings.shortened_url_id
   has_many :tag_topics, through: :taggings, source: :tag_topic
-	# 
+	# SELECT tag_topics.* FROM taggings JOIN tag_topics ON taggings.tag_id = tag_topics.id WHERE taggings.shortened_url_id = self.id
 	
   def self.random_code
     code = SecureRandom::urlsafe_base64
