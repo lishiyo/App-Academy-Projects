@@ -3,10 +3,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
 
-# Use sqlite3 as the database for Active Record
-group :development, :test do # <<<< :development, not devlopment
-  gem 'sqlite3'
-end
+# Use pg as the database for Active Record
 gem 'pg'
 
 # Use SCSS for stylesheets
@@ -35,6 +32,7 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'byebug',      '3.4.0'
@@ -44,6 +42,7 @@ group :development, :test do
 	gem 'binding_of_caller'
 	gem 'meta_request'
 	gem 'puma'
+	gem 'sqlite3'
 end
 
 #make 'rails c' open pry instead of irb
