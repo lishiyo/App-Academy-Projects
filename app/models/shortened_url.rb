@@ -9,12 +9,13 @@ class ShortenedUrl < ActiveRecord::Base
   has_many(:visits, class_name: "Visit", foreign_key: :shortened_url_id,
             primary_key: :id)
   has_many :visitors, -> { distinct }, through: :visits, source: :visitor
-	# SELECT DISTINCT * FROM users JOIN visits ON visits.visitor_id = users.id WHERE visits.shortened_url_id = self.id
+	# SELECT DISTINCT users.* FROM users JOIN visits ON visits.visitor_id = users.id WHERE visits.shortened_url_id = self.id
   has_many(:taggings, class_name: 'Tagging', foreign_key: :shortened_url_id,
             primary_key: :id)
-	# SELECT *
+	# SELECT taggings.* FROM taggings WHERE self.id = taggings.shortened_url_id
   has_many :tag_topics, through: :taggings, source: :tag_topic
-
+	# 
+	
   def self.random_code
     code = SecureRandom::urlsafe_base64
     while ShortenedUrl.exists?(short_url: code)
