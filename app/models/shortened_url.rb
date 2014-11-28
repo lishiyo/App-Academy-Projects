@@ -9,9 +9,10 @@ class ShortenedUrl < ActiveRecord::Base
   has_many(:visits, class_name: "Visit", foreign_key: :shortened_url_id,
             primary_key: :id)
   has_many :visitors, -> { distinct }, through: :visits, source: :visitor
-	
+	# SELECT DISTINCT * FROM users JOIN visits ON visits.visitor_id = users.id WHERE visits.shortened_url_id = self.id
   has_many(:taggings, class_name: 'Tagging', foreign_key: :shortened_url_id,
             primary_key: :id)
+	# SELECT *
   has_many :tag_topics, through: :taggings, source: :tag_topic
 
   def self.random_code
