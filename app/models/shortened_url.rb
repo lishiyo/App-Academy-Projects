@@ -5,7 +5,7 @@ class ShortenedUrl < ActiveRecord::Base
 
   belongs_to(:submitter, :class_name => 'User', :foreign_key => :submitter_id,
              :primary_key => :id)
-
+	# SELECT * FROM users WHERE self.submitter_id = user.id LIMIT 1
   has_many(:visits, class_name: "Visit", foreign_key: :shortened_url_id,
             primary_key: :id)
   has_many :visitors, -> { distinct }, through: :visits, source: :visitor
