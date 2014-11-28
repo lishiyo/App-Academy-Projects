@@ -35,10 +35,20 @@ class StaticPagesController < ApplicationController
     end
 	end
 	
+	
+	def launch
+		long_url = ShortenedUrl.find_by_short_url(launch_params[:short_url].strip).long_url
+		redirect_to long_url
+	end
+	
 	private 
 	
 	def submission_params
 		params.require(:user).permit(:long_url, :submitter_id, :name, :email, :tags)
+	end
+	
+	def launch_params
+		params.require(:url).permit(:short_url)
 	end
 
 end

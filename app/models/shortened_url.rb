@@ -45,11 +45,12 @@ class ShortenedUrl < ActiveRecord::Base
   def recent_uniques
     visits.where(created_at: 10.minutes.ago..Time.now).distinct
   end
-
+	
   private
   def recent_submissions_cannot_be_more_than_five
     if User.find(submitter_id).recent_submissions.count >= 5
       errors[:submissions] << "can't be more than five in one minute."
     end
   end
+	
 end

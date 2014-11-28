@@ -5,6 +5,7 @@ UrlShortener::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'static_pages#index'
 	get 'submit' => 'static_pages#create_short_url'
+	post 'launch' => 'static_pages#launch'
 	
 	resources :users, only: [:index, :new, :create, :show] 
 	resources :shortened_urls, only: [:new, :create, :show, :destroy] 

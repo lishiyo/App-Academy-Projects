@@ -2,11 +2,33 @@
   <div class="container">
 		<%= link_to "Url Squasher", root_path, id: "logo" %>
     <nav>
-      <ul class="nav navbar-nav pull-right">
+      <ul class="nav navbar-nav">
         <li><%= link_to "Home", root_path %></li>
 				<li><%= link_to "Submitters", users_path %></li>
         <li><%= link_to "Tags", tag_topics_path %></li>
       </ul>
+			
+				<div class="col-sm-3 col-md-3 pull-right">
+<!-- 				<form class="navbar-form">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="crunch a short url" name="srch-term" id="srch-term">
+					<div class="input-group-btn">
+						<button class="btn btn-submit" type="submit">ahoy!</button>
+					</div>
+				</div>
+				</form> -->
+					<div class="form-group">
+					
+				<%= form_tag({controller: "static_pages", action: "launch" }, method: "post", class: "navbar-form form-inline") do %>
+				<div class="input-group">
+						<%= text_field(:url, :short_url, { placeholder: "launch my short url", class: 'launch-bar form-control', style: 'display: inline-block; width:50%'}) %>
+						<%= submit_tag "launch", class: "btn btn-info form-control", style: "width: 70px;" %>
+				</div>	
+			<% end %>
+						
+				</div>
+			</div>
+			
     </nav>
   </div>
 </header>
