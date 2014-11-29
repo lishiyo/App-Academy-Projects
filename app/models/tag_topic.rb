@@ -10,11 +10,13 @@ class TagTopic < ActiveRecord::Base
   end
 	
 	def most_popular_for_tag
-		shortened_urls.sort_by{|su| su.visits }.reverse
+		shortened_urls.joins('LEFT OUTER JOIN visits ON visits.shortened_url_id = shortened_urls.id').group('shortened_urls.id').order('COUNT(visits.*) DESC')    
+		# shortened_urls.sort_by{|su| su.visits.count }.reverse
+		# The sort_by hits each of the shortened_urls again (N+1 queries)
 	end
 
   def TagTopic.most_popular_urls(n)
-    ShortenedUrl.joins(:visits).group('shortened_urls.id').order('COUNT(*) DESC')
+    ShortenedUrl.joins(:visits).group('shortened_urls.id').order('COUNT(*) DESC').limit(n)
   end
 
 end

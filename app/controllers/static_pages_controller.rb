@@ -21,7 +21,7 @@ class StaticPagesController < ApplicationController
 				if shortened_url.save
 					Visit.record_visit!(user, shortened_url) # record as a visit 
 					tags.each do |tag| 
-						new_tag = TagTopic.create!(topic: tag)
+						new_tag = TagTopic.first_or_create!(topic: tag)
 						Tagging.create!(shortened_url_id: shortened_url.id, tag_id: new_tag.id)
 					end
 						

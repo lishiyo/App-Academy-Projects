@@ -8,7 +8,7 @@ class ShortenedUrl < ActiveRecord::Base
 	# SELECT * FROM users WHERE self.submitter_id = user.id LIMIT 1
   has_many(:visits, class_name: "Visit", foreign_key: :shortened_url_id,
             primary_key: :id)
-  has_many :visitors, -> { distinct }, through: :visits, source: :visitor
+  has_many :visitors, through: :visits, source: :visitor
 	# SELECT DISTINCT users.* FROM users JOIN visits ON visits.visitor_id = users.id WHERE visits.shortened_url_id = self.id
   has_many(:taggings, class_name: 'Tagging', foreign_key: :shortened_url_id,
             primary_key: :id)
@@ -37,8 +37,8 @@ class ShortenedUrl < ActiveRecord::Base
 
   # total number of unique visitors
   def num_uniques
-		# User.joins(:submitted_urls).joins(:visits).group("shortened_urls.id").distinct.count
-    visitors.count
+		# Visit.select("users.*, COUNT(*) AS visitors_count").joins(:visitor).group("shortened_urls.id")
+		visitors.distinct.count
   end
 
   # total number of recent unique visits
