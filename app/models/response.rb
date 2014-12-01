@@ -13,37 +13,41 @@ class Response < ActiveRecord::Base
 
   #  other Response objects for the same Question
   def sibling_responses
-  #  self.question.responses.where.not(id: nil).where.not(id: id)
-
-    Response.find_by_sql("
-      SELECT
-        r2.*
-      FROM
-        responses AS r
-      INNER JOIN
-        (
-          SELECT
-            as.*
-          FROM
-            answer_choices AS as
-          INNER JOIN
-            questions AS q ON q.id = as.question_id
-          WHERE
-            as.id = ?
-        ) AS as2 ON r.answer_choice_id = as2.id
-      INNER JOIN
-        answer_choices AS as3 ON as3.id = as2.id
-      INNER JOIN
-        responses AS r2 ON r2.answer_choice_id = as3.id
-      WHERE
-        r2.id != ?
-    ", answer_choice_id, id)
+  #  self.question.responses.where.not(id: id)
     #
-    # Response.joins(answer_choice: :question)
-    #   .where('answer_choices.id = ?', answer_choice_id)
-    #   .joins(answer_choices: :responses)
-    #   .where.not(id: nil).where.not(id: id)
+    # Response.find_by_sql("
+    #   SELECT DISTINCT
+    #     r2.*
+    #   FROM
+    #     responses AS r
+    #   INNER JOIN
+    #     (
+    #       SELECT
+    #         as0.id AS as_id, q.id AS q_id
+    #       FROM
+    #         answer_choices AS as0
+    #       INNER JOIN
+    #         questions AS q ON q.id = as0.question_id
+    #       WHERE
+    #         as0.id = #{answer_choice_id}
+    #     ) AS as2 ON r.answer_choice_id = as2.as_id
+    #   INNER JOIN
+    #     answer_choices AS as3 ON as3.question_id = as2.q_id
+    #   INNER JOIN
+    #     responses AS r2 ON r2.answer_choice_id = as3.id
+    #   WHERE
+    #     #{self.id} IS NULL OR r2.id != #{self.id}")
 
+
+    Response
+      .joins('JOIN answer_choices AS as0 ON responses.answer_choice_id = as0.id')
+      .joins('JOIN questions AS q ON q.id = as0.question_id')
+      .joins('JOIN answer_choices AS as3 ON as3.question_id = q.id')
+      .joins('JOIN responses AS r2 ON r2.answer_choice_id = as3.id')
+      .select('r2.*').distinct
+      .where('as0.id = ?', answer_choice_id)
+      .where('? IS NULL OR r2.id != ?', self.id, self.id)
+    
   end
 
 
