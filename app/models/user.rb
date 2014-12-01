@@ -40,12 +40,14 @@ class User < ActiveRecord::Base
   end
 
   def uncompleted_polls
-    Poll.select("polls.*, COUNT(DISTINCT questions.id) AS questions_count, COUNT(res.id) as res_count")
-      .joins(questions: :answer_choices).joins("LEFT JOIN
-      (SELECT *
-      FROM responses
-      WHERE responses.respondent_id = #{self.id}
-      ) AS res ON res.answer_choice_id = answer_choices.id")
-      .group("polls.id").having("COUNT(DISTINCT questions.id) != COUNT(res.id) AND COUNT(res.id) > 0")
+      Poll.select("polls.*, COUNT(DISTINCT questions.id) AS questions_count, COUNT(res.id) as res_count")
+        .joins(questions: :answer_choices).joins("LEFT JOIN
+        (SELECT *
+        FROM responses
+        WHERE responses.respondent_id = #{self.id}
+        ) AS res ON res.answer_choice_id = answer_choices.id")
+        .group("polls.id").having("COUNT(DISTINCT questions.id) != COUNT(res.id) AND COUNT(res.id) > 0")
   end
+
+  
 end
