@@ -1,0 +1,19 @@
+<%= form_for @cat, url: cats_path, html: {class: "form-control"} do |f| %>
+  <label for ="cat_name">Name</label>
+  <%= f.text_field :name %>
+  <label for ="cat_birth_date">Birthday</label>
+  <%=  date_field :cat, :birth_date %>
+
+  <label for ="cat_sex">Gender</label>
+    <%= radio_button_tag(:cat, :sex, "f") %>
+    <%= label_tag(:sex_f, "girl") %>
+    <%= radio_button_tag(:cat, :sex, "m") %>
+    <%= label_tag(:sex_m, "boy") %>
+
+  <label for "cat_color">Color</label>
+    <%= f.select(:color, options_for_select(@color_options)) %>
+
+  <label for ="cat_description">Description</label>
+  <%= f.text_area :description, size: "60x12" %>
+  <%= f.submit "Create" %>
+<% end %>

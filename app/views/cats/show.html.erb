@@ -1,0 +1,12 @@
+<h1><%= @cat.name %></h1>
+
+<p> Stats </p>
+<ul>
+  <% @attribute_names.each do |name| %>
+    <li>
+       <%= name %>: <%= @cat.attributes[name] %>
+    </li>
+
+  <% end %>
+
+</ul>
