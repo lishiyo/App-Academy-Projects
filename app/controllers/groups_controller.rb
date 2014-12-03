@@ -9,7 +9,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    render json: @group
+    # render json: @group
+    render json: [@group.name, @group.owner.username] + @group.contacts
   end
 
   def create
