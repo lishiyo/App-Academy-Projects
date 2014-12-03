@@ -6,6 +6,8 @@ class Contact < ActiveRecord::Base
 
   has_many :contact_shares, inverse_of: :contact, dependent: :destroy
   has_many :shared_users, through: :contact_shares, source: :user
+  has_many :group_memberships
+  has_many :groups, through: :group_memberships, source: :group
 
   has_many :comments, as: :commentable
 end

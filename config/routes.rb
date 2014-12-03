@@ -1,8 +1,5 @@
 ContactsAPI::Application.routes.draw do
 
-  get "comments/index"
-  get "comments/create"
-  get "comments/destroy"
   root 'users#index'
 
   resources :users, only: [:index, :show, :create, :update, :destroy] do
@@ -12,11 +9,26 @@ ContactsAPI::Application.routes.draw do
 
   resources :contacts, only: [:show, :create, :update, :destroy] do
     resources :comments, only: [:index]
+    # contacts/1/favorite => contact.owner favorites
+    member do
+      post 'favorite'
+      delete 'unfavorite'
+    end
+
   end
 
   resources :comments, only: [:create, :destroy]
 
-  resources :contact_shares, only: [:create, :destroy]
+  resources :contact_shares, only: [:create, :destroy] do
+    # contact_shares/1/favorite => contact_shares.user
+    member do
+      post 'favorite'
+      delete 'unfavorite'
+    end
+
+  end
+end
+
   # get 'users' => 'users#index', as: 'users'
   # get 'users/:id' => 'users#show', as: 'user'
   # get 'users/new' => 'users#new', as: 'new_user'
@@ -80,4 +92,3 @@ ContactsAPI::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end

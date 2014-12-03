@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141203203249) do
+ActiveRecord::Schema.define(version: 20141203220741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20141203203249) do
     t.integer  "contact_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "favorited",  default: false
   end
 
   add_index "contact_shares", ["contact_id"], name: "index_contact_shares_on_contact_id", using: :btree
@@ -41,10 +42,31 @@ ActiveRecord::Schema.define(version: 20141203203249) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "favorited",  default: false
   end
 
   add_index "contacts", ["user_id", "email"], name: "index_contacts_on_user_id_and_email", unique: true, using: :btree
   add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
+
+  create_table "group_memberships", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "contact_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_memberships", ["contact_id", "group_id"], name: "index_group_memberships_on_contact_id_and_group_id", unique: true, using: :btree
+  add_index "group_memberships", ["contact_id"], name: "index_group_memberships_on_contact_id", using: :btree
+  add_index "group_memberships", ["group_id"], name: "index_group_memberships_on_group_id", using: :btree
+
+  create_table "groups", force: true do |t|
+    t.string   "name"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "groups", ["owner_id"], name: "index_groups_on_owner_id", using: :btree
 
   create_table "users", force: true do |t|
     t.datetime "created_at"
