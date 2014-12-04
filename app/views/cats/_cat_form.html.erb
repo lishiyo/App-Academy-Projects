@@ -1,0 +1,44 @@
+<% action_name = cat.persisted? ? cat_url(cat) : cats_url %>
+<form action="<%= action_name %>" method="post">
+  <% if cat.persisted? %>
+    <input type="hidden" name="_method" value="patch">
+  <% end %>
+  <!-- Using for invoking patch action in submit form -->
+  <label for="cat_name">Name</label>
+  <input type="text" name="cat[name]" value="<%= cat.name %>" id="cat_name">
+  <br>
+
+  <label for="cat_birth_date">Birthdate</label>
+  <input name="cat[birth_date]" id="cat_birth_date" type="date", value=<%=cat.birth_date%>>
+  <br>
+
+  <label>Gender</label>
+  <div>
+    <input name="cat[sex]" id="cat_sex_m" type="radio" value="M" <%="checked" if cat.sex == 'M' %>>
+    <label for="cat_sex_m">Boy</label>
+    <input name="cat[sex]" id="cat_sex_f" type="radio" value="F" <%="checked" if cat.sex == 'F'%>>
+    <label for="cat_sex_f">Girl</label>
+  </div>
+  <br>
+
+  <label for="cat_color">Color</label>
+  <!-- dropdown -->
+  <select name="cat[color]">
+    <!-- `brown` is the value that will be submitted to the server; user is
+    displayed "Brown" as the choice -->
+    <option value=""></option>
+    <% @color_options.each do |opt| %>
+    <option value=<%= opt %> <%= "selected" if cat.color == opt %>>
+      <%= opt.upcase %>
+    </option>
+    <% end %>
+  </select>
+  <br>
+
+  <label for="cat_description">Description</label>
+  <textarea name="cat[description]" id="cat_description" value=<%= cat.description %>>
+  </textarea>
+  <br>
+
+  <input type="submit" value="Create my cat">
+</form>
