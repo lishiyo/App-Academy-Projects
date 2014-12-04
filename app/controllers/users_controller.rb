@@ -24,12 +24,10 @@ class UsersController < ApplicationController
 	def show
     @user = User.find(params[:id])
 		@submitted_urls = @user.submitted_urls
-		@last_short_url = @submitted_urls.empty? ? "" : @submitted_urls.last.short_url
-		
+		@last_short_url = @submitted_urls.empty? ? nil : @submitted_urls.last.short_url
   end
 	
 	def destroy
-		
 	end
 
   private

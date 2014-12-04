@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+	attr_reader :password
+	
 	validates :email, :username, presence: true, uniqueness: true
 	validates :password_digest, presence: { message: "Password can't be blank" }
   validates :session_token, presence: true
@@ -29,6 +31,7 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
+
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
@@ -42,7 +45,7 @@ class User < ActiveRecord::Base
 	def self.find_by_credentials(email, password)
 		user = User.find_by_email(email)
     return nil if user.nil?
-    user.is_password?(password) ? user : nil
+		user.is_password?(password) ? user : nil
   end
 
   private

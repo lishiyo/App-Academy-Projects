@@ -1,12 +1,12 @@
 <li id="<%= shortened_url.id %>">
-	<span class="submitter"><%= link_to shortened_url.long_url, "#{shortened_url.long_url.strip}", {target: "_blank"} %></span>
+	<span class="submitter"><%= link_to shortened_url.long_url, "#{shortened_url.long_url.strip}", { target: "_blank" } %></span>
   <span class="url">
 		| <%= shortened_url.short_url %> | 
 	</span>
 	
   <span class="timestamp">
 <!--     submitted <%= time_ago_in_words(shortened_url.created_at) %> ago. -->
-		<%= link_to "delete", shortened_url, method: :delete,
+		<%= button_to "delete", shortened_url, method: :delete,
                                        data: {  },
                                        title: shortened_url.long_url %>
   </span>

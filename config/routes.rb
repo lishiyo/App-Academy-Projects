@@ -13,9 +13,9 @@ UrlShortener::Application.routes.draw do
 	post 'launch' => 'shortened_urls#launch', as: :launch
 	resources :tag_topics, only: [:index, :new, :create, :show, :destroy] 
 	
-	get 'session/new' => 'sessions#new', as: :session
-	post 'session' => 'sessions#create', as: :new_session
-	delete 'session' => 'sessions#delete'
+	get 'session/new' => 'sessions#new', as: :new_session
+	post 'session' => 'sessions#create', as: :session
+	delete 'session' => 'sessions#destroy'
 	
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -6,6 +6,12 @@
         <li><%= link_to "Home", root_path %></li>
 				<li><%= link_to "Submitters", users_path %></li>
         <li><%= link_to "Tags", tag_topics_path %></li>
+				<% if current_user.present? %>
+					<li><%= link_to "Logout", session_url, method: :delete %></li>
+				<% else %>
+					<li><%= link_to "Login", new_session_url %></li>
+				<li><%= link_to "Signup", new_user_url %></li>
+				<% end %>
       </ul>
 			
 				<div class="col-sm-3 col-md-3 pull-right">

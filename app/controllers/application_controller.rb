@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
     session[:session_token] = nil
   end
 
+	# requires user to be logged in
 	def require_current_user!
 		redirect_to new_session_url if current_user.nil?
 	end
