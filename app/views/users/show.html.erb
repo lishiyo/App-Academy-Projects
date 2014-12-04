@@ -28,23 +28,23 @@
 <script>
   $(document).ready(function() {
     var clip = new ZeroClipboard($("#d_clip_button"));
-		all_clips = [];
-		$(".clipboard").each(function(idx) {
-			current_clip = "d_clip_button_" + idx.toString();
-			console.log(current_clip);
+// 		all_clips = [];
+// 		$(".clipboard").each(function(idx) {
+// 			current_clip = "d_clip_button_" + idx.toString();
+// 			console.log(current_clip);
 			
-			var new_clip = new ZeroClipboard($(current_clip));
-			all_clips.push(new_clip);
+// 			var new_clip = new ZeroClipboard($(current_clip));
+// 			all_clips.push(new_clip);
 			
-			console.log(new_clip);
-		});
+// 			console.log(new_clip);
+// 		});
 		
-		$.each(all_clips, function(idx, clip){
-				clip.on( "aftercopy", function( event ) {
-					event.target.style.display = "none";
-					console.log("Copied text to clipboard: " + event.data["text/plain"] );
-				});
-			});
+// 		$.each(all_clips, function(idx, clip){
+// 				clip.on( "aftercopy", function( event ) {
+// 					event.target.style.display = "none";
+// 					console.log("Copied text to clipboard: " + event.data["text/plain"] );
+// 				});
+// 			});
 			
   });
 </script>

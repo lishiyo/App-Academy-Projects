@@ -12,8 +12,8 @@
   </span>
 		<span class="tag_topics"> | 
 		<%- shortened_url.tag_topics.each do |tt| %>
-			<%= link_to tt.topic, tag_topic_path(tt) %>
-		<% end.join(", ") unless shortened_url.tag_topics.nil?  %>
+			<%= link_to "##{tt.topic}", tag_topic_path(tt) %>
+		<% end unless shortened_url.tag_topics.nil?  %>
 		
 	</span>
 </li>

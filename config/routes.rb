@@ -4,12 +4,19 @@ UrlShortener::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'static_pages#index'
-	get 'submit' => 'static_pages#create_short_url'
-	post 'launch' => 'static_pages#launch'
+# 	get 'submit' => 'static_pages#create_short_url'
+# 	post 'launch' => 'static_pages#launch'
 	
-	resources :users, only: [:index, :new, :create, :show] 
-	resources :shortened_urls, only: [:new, :create, :show, :destroy] 
+	resources :users, only: [:index, :new, :create, :show]
+	
+	resources :shortened_urls, only: [:index, :new, :create, :destroy]
+	post 'launch' => 'shortened_urls#launch', as: :launch
 	resources :tag_topics, only: [:index, :new, :create, :show, :destroy] 
+	
+	get 'session/new' => 'sessions#new', as: :session
+	post 'session' => 'sessions#create', as: :new_session
+	delete 'session' => 'sessions#delete'
+	
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

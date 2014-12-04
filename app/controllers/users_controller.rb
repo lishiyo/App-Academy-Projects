@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+	respond_to :html, :json
+	
 	def index
 		@users = User.all
 	end
@@ -11,9 +13,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)   
     if @user.save
-      redirect_to root_url
+			login!(@user)
+			redirect_to user_url(@user), notice: "Your account was created."
     else
-      render 'new'
+      flash.now[:danger] = 'Something went wrong.'
+      render :new
     end
   end
 	
@@ -24,14 +28,14 @@ class UsersController < ApplicationController
 		
   end
 	
-	def delete
+	def destroy
 		
 	end
 
   private
 
   def user_params
-		params.require(:user).permit(:email, :name)
+		params.require(:user).permit(:email, :username, :password)
   end
 	
 end

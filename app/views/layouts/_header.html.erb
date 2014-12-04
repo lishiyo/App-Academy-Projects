@@ -10,16 +10,14 @@
 			
 				<div class="col-sm-3 col-md-3 pull-right">
 					<div class="form-group">
-					
-				<%= form_tag({controller: "static_pages", action: "launch" }, method: "post", class: "navbar-form form-inline") do %>
-				<div class="input-group">
-					<%= text_field(:url, :short_url, { placeholder: "launch a short url", class: 'launch-bar form-control', style: 'display: inline-block; width:50%'}) %>
-						<%= submit_tag "ahoy!", class: "btn btn-info form-control", style: "width: 70px;" %>
-				</div>	
-			<% end %>
-						
+						<%= form_tag(launch_url, method: "post", class: "navbar-form form-inline") do %>
+							<div class="input-group">
+								<%= text_field_tag(:short_url, "", { placeholder: "launch a short url", class: 'launch-bar form-control', style: 'display: inline-block; width:50%'}) %>
+								<%= submit_tag "ahoy!", class: "btn btn-info form-control", style: "width: 70px;" %>
+							</div>	
+						<% end %>
+					</div>
 				</div>
-			</div>
 			
     </nav>
   </div>
