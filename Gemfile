@@ -43,10 +43,8 @@ group :development, :test do
 	gem 'meta_request'
 	gem 'puma'
 	gem 'sqlite3'
+	gem 'pry-rails'
 end
-
-#make 'rails c' open pry instead of irb
-gem 'pry-rails', :group => :development
 
 gem 'launchy', '~> 2.4.3'
 

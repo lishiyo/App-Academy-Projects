@@ -1,7 +1,7 @@
 class ShortenedUrl < ActiveRecord::Base
   validates :submitter_id, presence: true
   validates :long_url, presence: true, length: { maximum: 1024 }
- # validate :recent_submissions_cannot_be_more_than_five
+  validate :recent_submissions_cannot_be_more_than_five
 
   belongs_to(:submitter, :class_name => 'User', :foreign_key => :submitter_id,
              :primary_key => :id)
@@ -48,7 +48,7 @@ class ShortenedUrl < ActiveRecord::Base
 	
   private
   def recent_submissions_cannot_be_more_than_five
-    if User.find(submitter_id).recent_submissions.count >= 5
+		if submitter.recent_submissions.count >= 5
       errors[:submissions] << "can't be more than five in one minute."
     end
   end
