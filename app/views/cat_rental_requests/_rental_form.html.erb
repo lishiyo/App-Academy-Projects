@@ -1,5 +1,6 @@
 <% action_name = cat_rental_request.persisted? ? cat_rental_request_url(cat_rental_request) : cat_rental_requests_url %>
 <form action="<%= action_name %>" method="post">
+  <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %>
   <% if cat_rental_request.persisted? %>
     <input type="hidden" name="_method" value="patch">
   <% end %>

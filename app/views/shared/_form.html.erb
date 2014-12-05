@@ -1,0 +1,19 @@
+<% if params[:controller] == 'sessions' %>
+    <% action_name = session_url %>
+    <% button_text = "log in" %>
+<% else %>
+    <% action_name = users_url %>
+    <% button_text = "sign up" %>
+<% end %>
+
+<form action=<%= action_name %> method="POST">
+  <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %>
+  <label for="user_user_name">Username:
+  <input type="text" name="user[user_name]" value="" id="user_user_name">
+
+  <br>
+  <label for="user_password">Password:
+  <input type="password" name="user[password]" value="" id="user_password">
+
+  <input type="submit" value=<%= button_text %>>
+</form>
