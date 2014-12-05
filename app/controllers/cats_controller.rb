@@ -42,18 +42,18 @@ class CatsController < ApplicationController
   end
 
   def show
-    # array of attributes that are not nil
-    @attributes = Array.new
-    @cat.attributes.each do |attr_name, value|
-      next if (value.nil?) || (attr_name.match("_at"))
-      @attributes << [attr_name,value]
-    end
+    # pluck out desired columns
+    # @attributes = Array.new
+    # @cat.attributes.each do |attr_name, value|
+    #   next if (value.nil?) || (attr_name.match("_at"))
+    #   @attributes << [attr_name,value]
+    # end
   end
 
   private
 
   def set_cat
-    @cat = Cat.find(params[:id])
+    @cat = Cat.includes(:cat_rental_requests).find(params[:id])
   end
 
   def color_options

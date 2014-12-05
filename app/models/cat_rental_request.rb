@@ -1,10 +1,18 @@
 class CatRentalRequest < ActiveRecord::Base
   validates :status, :start_date, :end_date, :cat_id, :presence => true
   validates :status, :inclusion => {in: ['PENDING', 'APPROVED','DENIED']}
+  validates :requester, :presence => true
   validate :overlapping_cat_request
   belongs_to(:cat)
 
+  belongs_to(
+  :requester,
+  :class_name => 'User',
+  :foreign_key => :user_id,
+  :primary_key => :id)
+
   after_initialize :set_pending
+
 
   # returns CatRentalRequest objects for same cat not myself
   # def sibling_requests

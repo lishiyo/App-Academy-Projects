@@ -18,12 +18,15 @@ class ApplicationController < ActionController::Base
   # called upon successful creation of new user
   def login!(user)
     user.reset_session_token!
+    curr_session_token = user.curr_session_token
     @current_user = user # set current_user upon login
-    session[:session_token] = user.session_token
+    # session[:session_token] = user.session_token
+    session[:session_token] = curr_session_token
   end
 
   def logout!
     current_user.reset_session_token!
+    curr_session_token = nil
     session[:session_token] = nil
   end
 
@@ -31,6 +34,10 @@ class ApplicationController < ActionController::Base
     unless @cat.owner == current_user
       redirect_to cat_url(@cat), notice: "You are not authorized to change this cat."
     end
+  end
+
+  def require_user_is_signed_in
+    redirect_to :back, notice: "You must be signed in to make a rental request." unless signed_in?
   end
 
   private
