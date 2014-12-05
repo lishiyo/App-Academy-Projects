@@ -2,7 +2,7 @@
 <div class="row">
 	<h1> <%= @user.username %> </h1>
   
-	<div class="col-lg-6 col-md-offset-3">
+	<div class="col-lg-8 col-md-offset-3">
 		<% if @last_short_url %>
 			<h2>
 				<span id='fe_text' style="padding-right: 20px;"> <%= @last_short_url %> </span>
@@ -15,10 +15,14 @@
 	
 		<div>
 			<% if @user.submitted_urls.any? %>
-				<p style="font-size: 1.5em; color: gray"> submitted urls (<%= @user.submitted_urls.count %>)</p>
-				<ol class="submitted_urls">
+			<table id="urls-table">
+				<th style="font-size: 1.5em; color: gray"> submitted urls (<%= @user.submitted_urls.count %>)</th>
+				
+<!-- 				<tr class="submitted_urls"> -->
 					<%= render @submitted_urls %>
-				</ol>
+<!-- 				</tr> -->
+				
+			</table>
 			<% end %>
 		</div>
 		

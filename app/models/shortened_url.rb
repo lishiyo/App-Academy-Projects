@@ -7,14 +7,15 @@ class ShortenedUrl < ActiveRecord::Base
              :primary_key => :id)
 	# SELECT * FROM users WHERE self.submitter_id = user.id LIMIT 1
   has_many(:visits, class_name: "Visit", foreign_key: :shortened_url_id,
-            primary_key: :id)
+		primary_key: :id, dependent: :destroy)
   has_many :visitors, through: :visits, source: :visitor
 	# SELECT DISTINCT users.* FROM users JOIN visits ON visits.visitor_id = users.id WHERE visits.shortened_url_id = self.id
   has_many(:taggings, class_name: 'Tagging', foreign_key: :shortened_url_id,
-            primary_key: :id)
+		primary_key: :id, dependent: :destroy)
 	# SELECT taggings.* FROM taggings WHERE self.id = taggings.shortened_url_id
   has_many :tag_topics, through: :taggings, source: :tag_topic
 	# SELECT tag_topics.* FROM taggings JOIN tag_topics ON taggings.tag_id = tag_topics.id WHERE taggings.shortened_url_id = self.id
+	
 	
   def self.random_code
     code = SecureRandom::urlsafe_base64

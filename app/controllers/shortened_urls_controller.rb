@@ -9,44 +9,62 @@ class ShortenedUrlsController < ApplicationController
 		@shortened_url = ShortenedUrl.new
 	end
 	
-	def show
-		
-	end
 	
 	# POST /shortened_urls
 	def create
-		user_name = submission_params[:name]
-		user_email = submission_params[:email]
+# 		user_name = submission_params[:name]
+# 		user_email = submission_params[:email]
 		user_long_url = submission_params[:long_url]
-		tags = Array.new.push(submission_params[:tags])
+		tags = submission_params[:tags].split(",").map(&:strip)
 		
-		user = User.where(name: user_name, email: user_email).first_or_create
+		# user = User.where(name: user_name, email: user_email).first_or_create
+		if current_user
+			@user = current_user
+		else
+			user_credentials = [login_params[:email], login_params[:password]]
+			@user = User.find_by_credentials(*user_credentials)
+			
+			if @user.nil?
+				flash[:danger] = "Invalid login info."
+				redirect_to :back
+				return
+				# redirect_to :back
+			else
+				login!(@user) # session[:session_token] = user.session_token
+			end
+			
+		end
 		
-		shortened_url = ShortenedUrl.create_for_user_and_long_url!(user, submission_params[:long_url])
+		# special ShortenedUrl method to ensure :short_url is created 
+		shortened_url = ShortenedUrl.create_for_user_and_long_url!(@user, submission_params[:long_url])
+	
 		respond_to do |format|
 			format.html do
 				if shortened_url.save
-					# record as a visit 
-					Visit.record_visit!(user, shortened_url)
-					# create TagTopics if necessary, attach tags
-					tags.each do |tag| 
-						new_tag = TagTopic.first_or_create!(topic: tag)
-						Tagging.create!(shortened_url_id: shortened_url.id, tag_id: new_tag.id)
-					end
+					# record visit and attach taggings
+					shortened_url.class.transaction do 
+						Visit.record_visit!(@user, shortened_url)
+						# create TagTopics if necessary, and attach tags
+						tags.each do |tag| 
+							new_tag = TagTopic.find_or_create_by(topic: tag)
+							shortened_url.taggings.create!(tag_id: new_tag.id)
+						end
 						
-					flash[:success] = "here ya go, #{user.name}!"
-					redirect_to user_path(user)
+					end
+					flash[:success] = "here ya go, #{@user.username}!"
+					redirect_to user_path(@user)
 				else
-					flash.now[:danger] = "submission failed"
+					flash.now[:danger] = "Logged in, but submission failed"
 					render root_url
 				end
 			end
-    end
+		end
+
+		
 	end
 	
 	# POST /launch 
 	def launch
-		p params
 		long_url = ShortenedUrl.find_by_short_url(launch_params[:short_url].strip).long_url
 		redirect_to long_url
 	end
@@ -63,7 +81,11 @@ class ShortenedUrlsController < ApplicationController
 	private
 	
 	def submission_params
-		params.require(:user).permit(:long_url, :submitter_id, :name, :email, :tags)
+		params.require(:shortened_url).permit(:long_url, :tags)
+	end
+	
+	def login_params
+		params.require(:user).permit(:username, :email, :password)
 	end
 	
 	def launch_params

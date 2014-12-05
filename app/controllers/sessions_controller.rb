@@ -7,7 +7,8 @@ class SessionsController < ApplicationController
 
   def create
 		if @user.nil? # find_user returned nil
-      render json: "Credentials were wrong."
+			flash.now[:danger] = "Couldn't find user with those credentials."
+			render :new
     else
 			login!(@user) # set session[:session_token] = user.session_token
 			flash[:success] = "Welcome back, #{@user.username}!"
