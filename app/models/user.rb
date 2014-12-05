@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
-  attr_reader :password, :curr_session_token
+  attr_reader :password
+  attr_accessor :curr_session_token
   # triggered for each object that is found and instantiated by a finder
   after_initialize :ensure_session_token
 
@@ -55,8 +56,14 @@ class User < ActiveRecord::Base
   end
 
   # logout! => set @curr_session_token = nil on this browser
-  def curr_session_token
-    @curr_session_token ||= self.session_tokens.create!(session_token: self.session_token)
+  # returns session_token from new SessionTokenOwnership object
+  def set_curr_session_token
+    @curr_session_token ||= persisted_token.session_token
+  end
+
+  # after log-in, persist new session_token to database
+  def persisted_token
+    self.session_tokens.create!(session_token: self.session_token)
   end
 
   private

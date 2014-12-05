@@ -7,7 +7,9 @@ class ApplicationController < ActionController::Base
   def current_user
     return nil if session[:session_token].nil?
 
-    @current_user ||= User.find_by(session_token: session[:session_token])
+    # @current_user ||= User.find_by(session_token: session[:session_token])
+    @current_user ||= UserSessionOwnership
+      .find_by(session_token: session[:session_token]).user
   end
 
   # forces a boolean true/false
@@ -18,15 +20,21 @@ class ApplicationController < ActionController::Base
   # called upon successful creation of new user
   def login!(user)
     user.reset_session_token!
-    curr_session_token = user.curr_session_token
+    # curr_session_token == user.session_token
+    # sets user.curr_session_token and persists to UserSessionsOwnership table
+    user.set_curr_session_token
     @current_user = user # set current_user upon login
     # session[:session_token] = user.session_token
-    session[:session_token] = curr_session_token
+    session[:session_token] = user.curr_session_token
   end
 
   def logout!
     current_user.reset_session_token!
-    curr_session_token = nil
+
+    # delete row in UserSessionOwnership
+    UserSessionOwnership.destroy_all(session_token: current_user.curr_session_token)
+    # clear out so curr_session_token has to reset with actual user.session_token
+
     session[:session_token] = nil
   end
 
