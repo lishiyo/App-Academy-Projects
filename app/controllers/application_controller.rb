@@ -27,6 +27,12 @@ class ApplicationController < ActionController::Base
     session[:session_token] = nil
   end
 
+  def require_current_owner
+    unless @cat.owner == current_user
+      redirect_to cat_url(@cat), notice: "You are not authorized to change this cat."
+    end
+  end
+
   private
 
   def user_params

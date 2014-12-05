@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   validates :user_name, :password_digest, :session_token, presence: true
 
+  has_many(:cats, :inverse_of => :owner)
+
   def self.find_by_credentials(user_name,password)
     user = User.find_by(:user_name => user_name)
     unless user

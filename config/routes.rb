@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   # /cats, /cats/cat_id
   resources :cats, only: [:index, :show, :new, :edit, :create, :update]
 
-
   resources :cat_rental_requests, only: [:new,:create,:update,:edit,:destroy,:show] do
     # POST to cat_rental_requests/:id/approve => CatRentalRequestsController#approve
     member do

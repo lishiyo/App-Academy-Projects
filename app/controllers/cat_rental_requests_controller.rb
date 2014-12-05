@@ -1,7 +1,8 @@
 class CatRentalRequestsController < ApplicationController
 
   before_action :set_cat_options
-  before_action :find_rental_request, only: [:show, :edit, :update, :destroy, :approve, :deny]
+  before_action :set_rental_request_and_cat, only: [:show, :edit, :update, :destroy, :require_current_owner, :approve, :deny]
+  before_action :require_current_owner, only: [:approve, :deny]
 
   def new
     @cat = Cat.find(params[:cat_id])
@@ -10,7 +11,6 @@ class CatRentalRequestsController < ApplicationController
 
   def create
     @cat_rental_request = CatRentalRequest.new(request_params)
-
     if @cat_rental_request.save
       flash[:success] = "Your rental request is in processing."
       redirect_to cat_url(@cat_rental_request.cat)
@@ -46,8 +46,9 @@ class CatRentalRequestsController < ApplicationController
 
   private
 
-  def find_rental_request
-    @cat_rental_request = CatRentalRequest.find(params[:id])
+  def set_rental_request_and_cat
+    @cat_rental_request = CatRentalRequest.includes(: cat).find(params[:id])
+    @cat = @cat_rental_request.cat
   end
 
   def set_cat_options

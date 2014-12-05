@@ -13,4 +13,10 @@ class Cat < ActiveRecord::Base
   end
 
   has_many(:cat_rental_requests, :inverse_of => :cat, :dependent => :destroy)
+
+  belongs_to(
+  :owner,
+  :class_name => 'User',
+  :foreign_key => :user_id,
+  :primary_key => :id)
 end

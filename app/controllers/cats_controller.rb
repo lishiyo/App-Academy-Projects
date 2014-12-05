@@ -1,6 +1,8 @@
 class CatsController < ApplicationController
 
   before_action :color_options
+  before_action :set_cat, only: [:show, :edit, :update, :destroy, :require_current_owner]
+  before_action :require_current_owner, only: [:edit, :update, :destroy]
 
   def index
     @cats = Cat.all
@@ -12,6 +14,9 @@ class CatsController < ApplicationController
 
   def create
     @cat = Cat.new(cat_params)
+    @cat.user_id = current_user.id
+
+    # @cat = current_user.cats.build(cat_params)
     if @cat.save
       flash[:success] = "#{@cat.name} was successfully created."
       redirect_to cat_url(@cat)
@@ -22,11 +27,9 @@ class CatsController < ApplicationController
   end
 
   def edit
-    @cat = Cat.find(params[:id])
   end
 
   def update #in current form, probably only returns original values
-    @cat = Cat.find(params[:id])
     if @cat.update(cat_params)
       # message is a string
       flash[:success] = "#{@cat.name} was successfully updated"
@@ -39,7 +42,6 @@ class CatsController < ApplicationController
   end
 
   def show
-    @cat = Cat.find(params[:id])
     # array of attributes that are not nil
     @attributes = Array.new
     @cat.attributes.each do |attr_name, value|
@@ -49,6 +51,10 @@ class CatsController < ApplicationController
   end
 
   private
+
+  def set_cat
+    @cat = Cat.find(params[:id])
+  end
 
   def color_options
     @color_options = Cat::COLORS
