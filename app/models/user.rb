@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
 	
 	# returns digest of either password or token
 	def self.digest(token)
-		BCrypt::Password.create(password)
+		BCrypt::Password.create(token)
 	end
 
   def password=(password)
