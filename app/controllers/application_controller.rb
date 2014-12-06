@@ -19,6 +19,12 @@ class ApplicationController < ActionController::Base
     current_user.try(:reset_session_token!)
     session[:session_token] = nil
   end
+	
+	def remember!(user)
+		user.remember # generate remember_token and set in database
+		cookies.permanent.signed[:user_id] = user.id
+		cookies.permanent[:remember_token] = user.remember_token
+	end
 
 	# requires user to be logged in
 	def require_current_user!

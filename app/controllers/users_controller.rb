@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 			login!(@user)
 			redirect_to user_url(@user), notice: "Your account was created."
     else
-      flash.now[:danger] = 'Something went wrong.'
+			flash.now[:danger] = 'Oops! Someone seems to have taken that account.'
       render :new
     end
   end
