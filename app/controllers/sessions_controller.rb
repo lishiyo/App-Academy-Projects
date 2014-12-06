@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+	include SessionsHelper
 
   before_action :find_user, only: [:create]
 
@@ -11,14 +12,15 @@ class SessionsController < ApplicationController
 			render :new
     else
 			login!(@user) # set session[:session_token] = user.session_token
+			params[:session] ? remember(@user) : forget(@user)
 			flash[:success] = "Welcome back, #{@user.username}!"
-      redirect_to user_url(@user)
+			redirect_to @user
       # render json: "Welcome back, #{@user.username}!"
     end
   end
 
   def destroy
-		logout! # POST /session => reset current_user's session_token, set session[:session_token] to nil
+		logout! if signed_in? 
 		redirect_to new_session_url
   end
 

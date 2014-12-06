@@ -11,21 +11,33 @@ class ApplicationController < ActionController::Base
 
 	# username and password params only available in Users#create, Sessions#create
   def current_user
-    return nil if session[:session_token].nil?
-    @current_user ||= User.find_by_session_token(session[:session_token])
+    # return nil if session[:session_token].nil?
+		return @current_user if @current_user
+		
+		if session[:session_token]	
+			@current_user = User.find_by(session_token: session[:session_token])
+			return @current_user
+		elsif cookies.signed[:user_id]
+			user = User.find_by(id: cookies.signed[:user_id])
+			if user && user.is_remember_token?(cookies[:remember_token])
+				@current_user = user
+				return @current_user
+			end
+		end
+		
+		nil
   end
 
   def logout!
     current_user.try(:reset_session_token!)
+		forget(current_user)
     session[:session_token] = nil
   end
 	
-	def remember!(user)
-		user.remember # generate remember_token and set in database
-		cookies.permanent.signed[:user_id] = user.id
-		cookies.permanent[:remember_token] = user.remember_token
+	def signed_in? 
+		!!current_user
 	end
-
+	
 	# requires user to be logged in
 	def require_current_user!
 		redirect_to new_session_url if current_user.nil?
