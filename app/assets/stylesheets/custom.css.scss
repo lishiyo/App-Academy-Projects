@@ -1,0 +1,37 @@
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+	
+/* mixins, variables, etc. */
+
+$gray-medium-light: #eaeaea;
+$brand-main: #b0e0f8;
+
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
+/* universal */
+
+.navbar {
+	background-color: $gray-medium-light;
+	
+	#nav-tab-content {
+		margin: 0px auto;
+		text-align: center;
+		width: 70%;
+	}
+}
+
+#login-btn {
+	@extend .btn;
+	max-width: 70px;
+	float: right;
+	display: inline-block;
+	margin: 0px 5px;
+}
+
+#signup-btn {
+	@extend #login-btn;
+}
