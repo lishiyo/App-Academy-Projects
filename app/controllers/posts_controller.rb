@@ -12,7 +12,16 @@ class PostsController < ApplicationController
 
   def create
     # current_user now @post's author
-    @post = current_user.posts.build(post_params)
+
+    Post.transaction do
+      @post = current_user.posts.build(post_params)
+
+      post_subs = post_params[:sub_ids].map(&:to_i) # array [1,2,3]
+      post_subs.each do |sub_id|
+        @post.post_subs.build(sub_id: sub_id)
+      end
+
+    end
 
     if @post.save
       redirect_to post_url(@post)
@@ -48,7 +57,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :url, :content, :sub_id, :user_id)
+    params.require(:post).permit(:title, :url, :content, { sub_ids: [] }, :user_id)
   end
 
 end

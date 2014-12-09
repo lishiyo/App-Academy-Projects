@@ -12,6 +12,11 @@
   <label for="post_url">URL</label>
   <input type="url" name="post[url]" value="<%= @post.url %>" id="post_url">
 
+  <% Sub.all.each do |sub| %> <!-- params: { post: { sub_ids: [1,2,3] }} -->
+    <input type="checkbox" name="post[sub_ids][]" value="<%= sub.id %>"> <%= sub.title %>
+    <br>
+  <% end %>
+
 
   <input type="submit" value="<%= button_text %>">
 

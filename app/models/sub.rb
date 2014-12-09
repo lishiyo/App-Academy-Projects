@@ -1,12 +1,10 @@
 class Sub < ActiveRecord::Base
   validates :title, :user_id, presence: true
 
-
   has_many(
     :posts,
     class_name: 'Post',
     foreign_key: :sub_id,
-    inverse_of: :sub,
     dependent: :destroy
   )
 
@@ -15,4 +13,7 @@ class Sub < ActiveRecord::Base
     class_name: 'User',
     foreign_key: :user_id
   )
+
+  has_many :post_subs, class_name: "PostSub", foreign_key: :sub_id, inverse_of: :sub
+
 end
