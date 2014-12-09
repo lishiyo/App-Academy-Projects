@@ -1,6 +1,9 @@
 <ul>
   <li>
+    <%= parent_comment.karma_score %>
     <%= link_to parent_comment.content, post_comment_url(parent_comment.post, parent_comment) %> <br>
+    <%= button_to "upvote", upvote_comment_url(parent_comment), method: :post %>
+    <%= button_to "downvote", downvote_comment_url(parent_comment), method: :post %> <br>
     <%= parent_comment.author.username %> <br>
     <%= parent_comment.created_at %> <br>
 

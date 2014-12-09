@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
 
-  before_action :set_post, only: [:show, :edit, :update, :require_current_author]
+  before_action :set_post, only: [:show, :edit, :update,
+                :require_current_author, :upvote, :downvote]
   before_action :require_current_author, only: [:edit, :update]
 
   def show
@@ -48,6 +49,14 @@ class PostsController < ApplicationController
       flash.now[:errors] = "Couldn't update post."
       render :edit
     end
+  end
+
+  def upvote
+    @post.votes.create!(value: 1)
+  end
+
+  def downvote
+    @post.votes.create!(value: -1)
   end
 
   private

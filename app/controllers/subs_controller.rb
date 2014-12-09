@@ -7,7 +7,10 @@ class SubsController < ApplicationController
     @subs = Sub.all
   end
 
+
   def show
+    # sort comments by score
+    
   end
 
   def new

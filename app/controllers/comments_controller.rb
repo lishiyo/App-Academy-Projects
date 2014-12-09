@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
 
+  before_action :set_comment, only: [:upvote, :downvote]
+
   def new
     @comment = Comment.new
   end
@@ -21,8 +23,22 @@ class CommentsController < ApplicationController
     @comment = Comment.new
   end
 
+  def upvote
+    @comment.votes.create!(value: 1)
+    redirect_to post_url(@comment.post)
+  end
+
+  def downvote
+    @comment.votes.create!(value: -1)
+    redirect_to post_url(@comment.post)
+  end
 
   private
+
+  def set_comment
+    @comment = Comment.find(params[:id])
+  end
+
   def comment_params
     params.require(:comment).permit(:content, :post_id, :parent_comment_id)
   end
