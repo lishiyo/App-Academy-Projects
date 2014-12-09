@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   before_action :require_current_author, only: [:edit, :update]
 
   def show
+    @top_level_comments = @post.comments.where(parent_comment_id: nil)
   end
 
   def new

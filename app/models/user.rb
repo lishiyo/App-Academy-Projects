@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
     inverse_of: :moderator
   )
 
+  has_many :comments, class_name: 'Comment', foreign_key: :user_id
 
 
   def password=(password)

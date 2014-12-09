@@ -18,5 +18,6 @@ class Post < ActiveRecord::Base
   # cross posts
   has_many :subs, through: :post_subs, source: :sub
 
-
+  has_many :comments, class_name: 'Comment', foreign_key: :post_id
+  
 end

@@ -1,0 +1,16 @@
+<ul>
+<li>
+  <%= link_to parent_comment.content, post_comment_url(parent_comment.post_id, parent_comment) %>
+
+<% unless parent_comment.child_comments.empty? %>
+  <ul>
+    <% parent_comment.child_comments.each do |comment| %>
+
+        <%= render partial: 'comments/comment', locals: {parent_comment: comment} %>
+
+  <% end %>
+</ul>
+<% end %>
+
+</li>
+</ul>
