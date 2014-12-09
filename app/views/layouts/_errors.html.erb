@@ -1,0 +1,6 @@
+<ul>
+  <!-- flash[:notice], flash[:errors], flash[:success] -->
+<% flash.each do |type, message| %>
+  <li><%= message %></li>
+<% end %>
+</ul>
