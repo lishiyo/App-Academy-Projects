@@ -53,10 +53,12 @@ class PostsController < ApplicationController
 
   def upvote
     @post.votes.create!(value: 1)
+    redirect_to post_url(@post)
   end
 
   def downvote
     @post.votes.create!(value: -1)
+    redirect_to post_url(@post)
   end
 
   private

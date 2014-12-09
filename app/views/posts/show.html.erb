@@ -1,4 +1,7 @@
-<h1><%= link_to @post.title, @post.url %></h1>
+<h1><%= link_to @post.title, @post.url %><%= @post.karma_score %>
+<%= button_to "upvote", upvote_post_url(@post), method: :post %>
+<%= button_to "downvote", downvote_post_url(@post), method: :post  %>
+</h1>
 
 <%= @post.content %>
 
