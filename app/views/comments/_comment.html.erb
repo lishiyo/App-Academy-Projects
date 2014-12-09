@@ -1,16 +1,15 @@
 <ul>
-<li>
-  <%= link_to parent_comment.content, post_comment_url(parent_comment.post_id, parent_comment) %>
+  <li>
+    <%= parent_comment.content %> <br>
+    <%= parent_comment.author.username %> <br>
+    <%= parent_comment.created_at %> <br>
 
-<% unless parent_comment.child_comments.empty? %>
-  <ul>
-    <% parent_comment.child_comments.each do |comment| %>
-
-        <%= render partial: 'comments/comment', locals: {parent_comment: comment} %>
-
-  <% end %>
-</ul>
-<% end %>
-
-</li>
+  <% @all_comments.each do |some_comment| %>
+    <% if some_comment.parent_comment_id == parent_comment.id %>
+      <li>
+       <%= render partial: 'comments/comment', locals: {parent_comment: some_comment} %>
+     </li>
+    <% end %>
+    <% end %>
+  </li>
 </ul>

@@ -10,6 +10,7 @@
 <%= link_to "Edit", edit_post_url(@post) %>
 <%= link_to "Add Comment", new_post_comment_url(@post) %>
 
+<!-- render _comment only for top level comments -->
 <% @top_level_comments.each do |comment| %>
 
   <%= render partial: 'comments/comment', locals: {parent_comment: comment} %>
