@@ -6,9 +6,9 @@ class PostsController < ApplicationController
   def show
 
     # all parent comments and child_comments for a post
-
-    @all_comments = Comment.includes(:author).includes(:child_comments).where(post_id: @post.id)
-    @top_level_comments = @all_comments.where(parent_comment_id: nil)
+    # hash of {nil: [child_comm1, child_comm2], "1" => [child_comm3]}
+    @all_comments = @post.comments_by_parent_id
+    @top_level_comments = @all_comments[nil] # returns array of top level comments
 
   end
 
