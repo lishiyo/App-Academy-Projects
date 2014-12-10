@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Goalie</title>
+  <title>Goalie☃</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
@@ -11,10 +11,11 @@
 <%= flash[:errors].join(', ') if flash[:errors] %>
 
 <% if signed_in?   %>
+  <%= current_user.username %>
   <%= button_to "Sign Out", session_url, method: :delete %>
 <% else %>
-  <%= button_to "Sign In", new_session_url, method: :get %>
-  <%= button_to "Sign Up", new_user_url, method: :get %>
+  <%= link_to "Sign In", new_session_url, method: :get %>
+  <%= link_to "Sign Up", new_user_url, method: :get %>
 <% end %>
 
 <%= yield %>

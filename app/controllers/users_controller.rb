@@ -12,6 +12,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @goals = @user.goals
+    @goal = @user.goals.new #for creating a new goal form
   end
 
   def create
