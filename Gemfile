@@ -56,6 +56,7 @@ gem 'bcrypt'
 
 # Use unicorn as the app server
 gem 'unicorn'
+gem 'unicorn-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development

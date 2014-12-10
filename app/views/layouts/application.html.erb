@@ -8,6 +8,15 @@
 </head>
 <body>
 
+<%= flash[:errors].join(', ') if flash[:errors] %>
+
+<% if signed_in?   %>
+  <%= button_to "Sign Out", session_url, method: :delete %>
+<% else %>
+  <%= button_to "Sign In", new_session_url, method: :get %>
+  <%= button_to "Sign Up", new_user_url, method: :get %>
+<% end %>
+
 <%= yield %>
 
 </body>
