@@ -10,19 +10,14 @@
     };
 
   Snake.prototype.move = function(){
-    var snake = this;
-
     var newSegment = [this.segments[0][0], this.segments[0][1]];
 
-    var incr = Snake.DIRS[snake.dir];
+    var incr = Snake.DIRS[this.dir];
     newSegment[0] += incr[0];
     newSegment[1] += incr[1];
-    console.log("Before segments: " + JSON.stringify(this.segments));
 
     this.segments.unshift(newSegment);
     this.segments.pop();
-    console.log("New segment: " + JSON.stringify(newSegment));
-    console.log("All segments: " + JSON.stringify(this.segments));
 
     this.board.anyCollisions();
   };
@@ -52,17 +47,12 @@
 
   Board.SIZE = 25;
 
-  Board.prototype.anyCollisions = function(coord){
-    var snakeFront = this.snake.segments[0];
-    var length = this.snake.segments.length;
-    var snakePenultimate = this.snake.segments[length-2];
-    var snakeEnd = this.snake.segments[length-1];
+  Board.prototype.anyEatings = function(snakeFront, snakeEnd){
+    var board = this;
+    var snakePenultimate = this.snake.segments[this.snake.segments.length-2];
+
     var diffX = snakeEnd[0] - snakePenultimate[0];
     var diffY = snakeEnd[1] - snakePenultimate[1];
-    var otherSegments = this.snake.segments.slice(1);
-    var board = this;
-
-    // console.log("Other segments: " + JSON.stringify(otherSegments));
 
     this.apples.forEach(function (apple) {
       if (snakeFront[0] === apple[0] && snakeFront[1] === apple[1]) {
@@ -73,18 +63,30 @@
       }
     });
 
+  }
+
+  Board.prototype.anyDeaths = function(snakeFront){
+    var otherSegments = this.snake.segments.slice(1);
+
     if (snakeFront[0] > Board.SIZE || snakeFront[1] > Board.SIZE ||
-        snakeFront[0] < 0 || snakeFront[1] < 0) {
-          console.log("You ran out of bounds!! " + JSON.stringify(snakeFront));
-          throw new SnakeError("You lost!!");
-    }
+      snakeFront[0] < 0 || snakeFront[1] < 0) {
+        throw new SnakeError("You lost!!");
+      }
 
     otherSegments.forEach(function(seg) {
       if (seg[0] === snakeFront[0] && seg[1] === snakeFront[1]) {
         throw new SnakeError("You hit yourself dummy!");
       }
     });
+  }
 
+  Board.prototype.anyCollisions = function(){
+    var length = this.snake.segments.length;
+    var snakeFront = this.snake.segments[0];
+    var snakeEnd = this.snake.segments[length-1];
+
+    this.anyDeaths(snakeFront);
+    this.anyEatings(snakeFront, snakeEnd);
   }
 
   var SnakeError = SnakeGame.SnakeError = function(msg){

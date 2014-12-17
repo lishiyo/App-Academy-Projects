@@ -9,6 +9,7 @@
     this.canvas = $el;
     this.board = new SnakeGame.Board();
     this.generateApples();
+    this.render();
     this.startIntervals();
   };
 
@@ -75,16 +76,17 @@
   // call snake move and redraw whole board
   View.prototype.step = function(){
     this.setUpBoard();
-    this.render();
-    this.bindKeys();
+
     try {
       this.board.snake.move();
     } catch (e) {
-      alert(e.msg);
+      console.log(e);
       this.stopIntervals();
       this.over = true;
     }
 
+    this.render();
+    this.bindKeys();
   };
 
   View.prototype.render = function(){
