@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+      <script src="../jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="http://placecorgi.com/javascripts/jquery.placecorgi.js"></script>
+    <script src="./carousel.js"></script>
+    <link href="./carousel.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="carousel">
+  <div class="items">
+    <img class="active" src="../images/corgi-1.jpeg" width="320" height="240"  />
+    <img src="../images/corgi-2.jpeg"   />
+    <img src="../images/corgi-3.jpeg"  />
+    <img src="../images/corgi-4.jpeg"  />
+    <img src="../images/corgi-5.jpeg"  />
+  </div>
+  <br>
+
+</div>
+<div style="text-align:center;">
+  <a href="javascript:void(0)" class="slide-right">Prev</a>
+  <a href="javascript:void(0)" class="slide-left">Next</a>
+</div>
+
+
+  <script charset="utf-8">
+    $(document).ready( function() {
+      var carousel = new $.Carousel($("body"));
+
+    });
+  </script>
+  </body>
+</html>
