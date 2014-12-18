@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Cool Website</title>
+
+    <script src="../jquery-1.11.1.js"></script>
+    <script src="./tabs.js"></script>
+    <link href="./tabs.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+
+  <ul class='tabs' data-content-tabs="#content-tabs">
+    <li><a class='active' href="#cavachon">cavachon</a></li>
+    <li><a href="#husky">husky</a></li>
+    <li><a href="#aussie">aussie</a></li>
+  </ul>
+
+
+  <div id="content-tabs">
+    <div class="tab-pane active" id="cavachon">
+      <p>
+        Cavachons are friendly, intelligent, gentle and playful dogs.
+        Cavachons are very social dogs. They love to meet new people and
+        especially children.
+      </p>
+    </div>
+    <div class="tab-pane" id="husky">
+      <p>
+        Bred to be a sled dog, the Siberian Husky makes a great all-around dog. They are agreeable, alert, and outgoing. They have amazing endurance, and are always willing to work and want something to do, so they need at least an hour of exercise per day. They also need to be around people or other dogs at all times.
+      </p>
+    </div>
+    <div class="tab-pane" id="aussie">
+      <p>
+        The Australian Shepherd, lovingly called an "Aussie," is a highly intelligent, incredibly energetic, people-loving dog who needs to have a job to do. They need lots and lots of exercise and will fit in well with an active person or family.
+      </p>
+    </div>
+  </div>
+  <script>
+    $(function() {
+      $('.tabs').tabs();
+    })
+  </script>
+  </body>
+</html>

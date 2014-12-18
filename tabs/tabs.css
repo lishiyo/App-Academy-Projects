@@ -1,0 +1,42 @@
+html, div, p, ul, li {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  background: transparent;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  /*background-color: blue;
+  height: 150px;*/
+}
+
+
+.tabs a.active {
+  font-weight: bold;
+
+}
+
+div.tab-pane {
+  display: none;
+  -webkit-transition: opacity 0.5s;
+}
+
+div.tab-pane.active {
+  display: block;
+
+  opacity: 1;
+
+}
+/*
+.active {
+}*/
+
+div.tab-pane.transitioning {
+  display: block;
+  opacity: 0;
+}
