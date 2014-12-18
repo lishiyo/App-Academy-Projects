@@ -1,0 +1,70 @@
+html, div, p, ul, li {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  background: transparent;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+a.nav {
+  /*display: block;
+  float: left;*/
+  width: 5%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+div.gutter {
+  position: relative;
+}
+
+a.nav.left{
+  left: 0%;
+}
+
+a.nav.right{
+  left: 95%;
+}
+
+div.gutter-images {
+  width: 90%;
+  /*display: block;
+  float: left;*/
+  position: relative;
+  left: 5%;
+  height: 100px;
+}
+
+div.gutter-images img {
+  width: 20%;
+  display: block;
+  max-height: 100px;
+  float: left;
+}
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+
+}
+
+div.thumbnails {
+  width: 400px;
+}
+
+div.active {
+  height: 500px;
+}
+
+div.active img {
+  height: 80%;
+}
