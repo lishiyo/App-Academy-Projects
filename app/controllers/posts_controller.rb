@@ -4,6 +4,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.all
+    render json: @posts
   end
 
   def show
@@ -16,6 +17,11 @@ class PostsController < ApplicationController
     else
       render json: @post.errors.full_messages, status: 422
     end
+  end
+
+  def destroy
+    @post.destroy
+    render json: @post
   end
 
   private

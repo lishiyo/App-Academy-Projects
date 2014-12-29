@@ -12,6 +12,17 @@ window.JournalApp = {
       title: "My First Post",
       body: "Hello from App Academy!"
     });
+
+    var $main = $("#main_content");
+
+    JournalApp.posts.fetch({
+      success: function(){
+        console.log("Fetch succeeded!");
+        var postIndexView = new JournalApp.Views.PostsIndex({collection: JournalApp.posts});
+        $main.html(postIndexView.render().$el);
+        }
+
+    });
   }
 };
 
