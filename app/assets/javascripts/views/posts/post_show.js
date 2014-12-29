@@ -7,7 +7,8 @@ JournalApp.Views.PostShow = Backbone.View.extend({
   },
 
   initialize: function(){
-    this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.model, 'sync invalid', this.render);
+    this.listenTo(this.model, 'invalid', this.showErrors);
   },
 
   render: function(){
@@ -39,12 +40,16 @@ JournalApp.Views.PostShow = Backbone.View.extend({
 
     this.model.save(params_hash, {
       success: function(){
-        
+
       }.bind(this),
       error: function(){
         this.model.fetch();
       }.bind(this)
     });
+  },
+
+  showErrors: function(model, error, options) {
+    alert(error);
   }
 
 });

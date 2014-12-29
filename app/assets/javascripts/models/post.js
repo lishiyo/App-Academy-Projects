@@ -3,7 +3,9 @@ JournalApp.Models.Post = Backbone.Model.extend({
 
   validate: function(attrs) {
     if (!attrs.title) {
-      // return 'please fill title field'
+      return 'please fill title field'
+    } else if (!attrs.body) {
+      return "please fill title body"
     }
   }
 });
