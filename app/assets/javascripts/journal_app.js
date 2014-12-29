@@ -13,13 +13,17 @@ window.JournalApp = {
     //   body: "Hello from App Academy!"
     // });
 
-    var $main = $("#main_content");
+    var $main = $("#main_content"),
+        $sidebar = $("div#sidebar");
 
     JournalApp.posts.fetch({
       success: function(){
-        new JournalApp.Router.PostsRouter({
-          $rootEl: $main
+        var postsIndex = new JournalApp.Views.PostsIndex({
+          collection: JournalApp.posts
         });
+        $sidebar.html(postsIndex.render().$el);
+
+        new JournalApp.Router.PostsRouter({ $rootEl: $main });
 
         Backbone.history.start();
       }
