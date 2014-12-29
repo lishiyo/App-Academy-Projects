@@ -21,6 +21,7 @@ JournalApp.Views.PostShow = Backbone.View.extend({
   },
 
   editAttribute: function(event){
+    event.preventDefault();
     var $attribute = $(event.currentTarget);
     var attributeText = $attribute.text(),
         attributeType = $attribute.data('type');
@@ -28,15 +29,20 @@ JournalApp.Views.PostShow = Backbone.View.extend({
     var $inputBox = $("<input>").attr('type', attributeType);
     $inputBox.val(attributeText);
     $attribute.html($inputBox);
+    $inputBox.focus();
   },
 
   saveAttribute: function(event){
+    event.preventDefault();
     var $attribute = $(event.currentTarget).find('input');
     var newContent = $attribute.val().toString();
     var paramName = $(event.currentTarget).data("name");
 
     var params_hash = {};
     params_hash[paramName] = newContent;
+
+    // doesn't work on error because it is set on client side before checking error
+    // this.model.set(paramName, newContent);
 
     this.model.save(params_hash, {
       success: function(){

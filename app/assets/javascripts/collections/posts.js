@@ -8,7 +8,11 @@ JournalApp.Collections.Posts = Backbone.Collection.extend({
       post.fetch();
     } else { // post is not in collection
       post = new JournalApp.Models.Post({id: id}); // hits posts#show
-      post.fetch();
+      post.fetch({
+        success:function(){
+          this.add(post);
+        }.bind(this)
+      });
     }
 
     return post;
