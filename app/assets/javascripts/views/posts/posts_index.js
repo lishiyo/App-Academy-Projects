@@ -7,7 +7,7 @@ JournalApp.Views.PostsIndex = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.listenTo(this.collection, 'remove add change:title reset', this.render);
+    this.listenTo(this.collection, 'sync change:title remove', this.render);
   },
 
   render: function(){
@@ -19,7 +19,6 @@ JournalApp.Views.PostsIndex = Backbone.View.extend({
   deletePost: function(event){
     var postId = $(event.currentTarget).data("id");
     var post = this.collection.get(postId);
-    console.log(post);
     post.destroy();
   }
 
