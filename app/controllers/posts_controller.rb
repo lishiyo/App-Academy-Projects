@@ -8,6 +8,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    render json: @post
   end
 
   def create
@@ -22,6 +23,14 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     render json: @post
+  end
+
+  def update
+    if @post.update(post_params)
+      render json: @post
+    else
+      render json: @post.errors.full_messages, status: 422
+    end
   end
 
   private
