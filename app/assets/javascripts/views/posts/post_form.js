@@ -6,7 +6,7 @@ JournalApp.Views.PostForm = Backbone.View.extend({
   },
 
   events: {
-    "submit form": "editPost"
+    "submit form": "submitPost"
   },
 
   render: function(){
@@ -15,13 +15,14 @@ JournalApp.Views.PostForm = Backbone.View.extend({
     return this;
   },
 
-  editPost: function(event){
+  submitPost: function(event){
     event.preventDefault();
     var $form = $(event.currentTarget);
     var formData = $form.serializeJSON().post;
     // wrap params assumes name is controller name
     this.model.save(formData, {
       success: function(){
+        this.collection.add(this.model, { merge: true });
         Backbone.history.navigate("#", { trigger: true });
       }.bind(this),
 
