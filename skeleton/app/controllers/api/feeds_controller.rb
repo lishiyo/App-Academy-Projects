@@ -16,6 +16,21 @@ class Api::FeedsController < ApplicationController
     end
   end
 
+  def destroy
+    @feed = Feed.find(params[:id])
+    @feed.destroy
+    render json: nil
+  end
+
+  def new
+    @feed = Feed.new
+    render json: @feed
+  end
+
+  def favorite
+    current_user.favorited_feeds.build(params[:id])
+  end
+
   private
 
   def feed_params

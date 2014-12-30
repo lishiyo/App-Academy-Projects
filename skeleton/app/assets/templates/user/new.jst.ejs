@@ -1,0 +1,11 @@
+<form id="new-user">
+  <label>Username</label>
+  <input type="text" name="user[username]" value="<%= user.escape('username') %>">
+  <br>
+
+  <label>Password</label>
+  <input type="password" name="user[password]" value="">
+  <br>
+
+  <button name="button">Create User!</button>
+</form>

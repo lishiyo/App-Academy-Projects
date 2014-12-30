@@ -2,7 +2,11 @@ NewsReader.Routers.FeedRouter = Backbone.Router.extend({
 
   routes: {
     "": "feedsIndex",
-    "feeds/:id": "feedShow"
+    "feeds/new": "feedNew",
+    "feeds/:id": "feedShow",
+    "users/new": "userNew",
+    "session/new": "sessionNew",
+    "users/:id": "userShow"
   },
 
   initialize: function(opts) {
@@ -10,6 +14,8 @@ NewsReader.Routers.FeedRouter = Backbone.Router.extend({
   },
 
   feedsIndex: function() {
+    var feedsForm = $("<div>").addClass("new-feed-form");
+
     NewsReader.feeds.fetch();
     var feedsIndex = new NewsReader.Views.FeedsIndex({
       collection: NewsReader.feeds
@@ -35,6 +41,37 @@ NewsReader.Routers.FeedRouter = Backbone.Router.extend({
     this._currentView && this._currentView.remove();
     this._currentView = newView;
     this.$rootEl.html(newView.render().$el);
-  }
+  },
 
+  feedNew: function () {
+    var newFeed = new NewsReader.Models.Feed();
+    var feedNewView = new NewsReader.Views.FeedNew({ model: newFeed });
+
+    this._swapView(feedNewView);
+  },
+
+  userNew: function (){
+    var newUser = new NewsReader.Models.User();
+    var userNewView = new NewsReader.Views.UserNew({ model: newUser });
+
+    this._swapView(userNewView);
+  },
+
+  sessionNew: function(){
+    var newUser = new NewsReader.Models.User();
+    var sessionNewView = new NewsReader.Views.SessionNew({ model: newUser });
+
+    this._swapView(sessionNewView);
+  },
+
+  userShow: function(id){
+    var user = new NewsReader.Models.User({id: id});
+
+    user.fetch({
+      success: function (){
+        var userShowView = new NewsReader.Views.UserShow({ model: user });
+        this._swapView(userShowView);
+      }.bind(this)
+    });
+  }
 });

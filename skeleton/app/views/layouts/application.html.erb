@@ -7,6 +7,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<nav>
+  <% if logged_in? %>
+    <a href="#/users/<%= current_user.id %>"><%= current_user.username %></a>
+    <%= button_to "Logout", session_url, method: :delete %>
+  <% else %>
+    <a href="#/session/new"><button>Log In</button></a>
+    <a href="#/users/new"><button>Sign Up</button></a>
+  <% end %>
+
+</nav>
 
 <%= yield %>
 

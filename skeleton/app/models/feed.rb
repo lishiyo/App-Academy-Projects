@@ -2,6 +2,8 @@ require 'open-uri'
 
 class Feed < ActiveRecord::Base
   has_many :entries, :dependent => :destroy
+  belongs_to :user
+  belongs_to :favoritable, polymorphic: true
 
   def self.find_or_create_by_url(url)
     feed = Feed.find_by_url(url)
@@ -43,6 +45,6 @@ class Feed < ActiveRecord::Base
       self.reload
     end
 
-    entries 
+    entries
   end
 end
