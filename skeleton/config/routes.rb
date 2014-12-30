@@ -6,7 +6,7 @@ NewsReader::Application.routes.draw do
       resources :entries, only: [:index]
 
       member do
-        post 'favorite'
+        post 'favorite' # /api/feeds/:id/favorite
       end
     end
 

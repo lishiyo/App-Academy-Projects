@@ -28,7 +28,13 @@ class Api::FeedsController < ApplicationController
   end
 
   def favorite
-    current_user.favorited_feeds.build(params[:id])
+    @feed = Feed.find(params[:id])
+    feedfav = UserFeedFavorite.new(feed_id: @feed.id, user_id: current_user.id)
+    if feedfav.save
+      render json: feedfav
+    else
+      render json: feedfav.errors.full_messages
+    end
   end
 
   private

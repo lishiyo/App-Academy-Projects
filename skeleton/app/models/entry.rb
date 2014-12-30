@@ -1,6 +1,5 @@
 class Entry < ActiveRecord::Base
   belongs_to :feed
-  belongs_to :favoritable, polymorphic: true
 
   def self.create_from_json!(entryData, feed)
     scrub_encoding(entryData)

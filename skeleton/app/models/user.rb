@@ -6,11 +6,13 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
 
   has_many :feeds, inverse_of: :user, dependent: :destroy
-  has_many :favorited_feeds, through: :feeds, source: :favoritable, source_type: 'Feed'
+  # has_many :favorited_feeds, through: :feeds, source: :favoritable, source_type: 'Feed'
 
   has_many :entries, through: :feeds, source: :entries
-  has_many :favorited_entries, through: :entries, source: :favoritable, source_type: "Entry"
+  # has_many :favorited_entries, through: :entries, source: :favoritable, source_type: "Entry"
 
+  has_many :feed_favs, class_name: "UserFeedFavorite", foreign_key: :user_id, primary_key: :id
+  has_many :favorited_feeds, through: :feed_favs, source: :feed
 
   def self.generate_session_token
     SecureRandom.urlsafe_base64

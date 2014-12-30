@@ -19,7 +19,7 @@ class Api::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    render json: @user, include: :feeds
+    render json: @user, include: [:feeds, :favorited_feeds]
   end
 
   private
