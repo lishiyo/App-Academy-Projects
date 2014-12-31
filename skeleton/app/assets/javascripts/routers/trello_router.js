@@ -41,7 +41,8 @@ TrelloClone.Routers.TrelloRouter = Backbone.Router.extend({
     TrelloClone.boards = new TrelloClone.Collections.Boards();
     TrelloClone.boards.fetch();
 
-    var board = TrelloClone.boards.getOrFetch(id); // need to fetch to get this._lists
+    var board = TrelloClone.boards.getOrFetch(id);
+    // need to use success callback because board.lists() must be fetched
 
     board.fetch({
       success: function(){
