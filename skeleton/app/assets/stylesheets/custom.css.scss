@@ -63,3 +63,20 @@ button.delete-card {
   top: 3%;
   right: 0%;
 }
+
+/** VENDOR **/
+//
+// body.dragging, body.dragging * {
+//   cursor: move !important;
+// }
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+}
+
+.ui-state-highlight {
+  opacity: 1.0;
+  background-color: blue;
+  /** More li styles **/
+}
