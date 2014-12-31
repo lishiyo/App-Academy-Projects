@@ -2,11 +2,12 @@ TrelloClone.Views.ListNew = Backbone.View.extend({
   template: JST['lists/new'],
 
   initialize: function(opts){
-    this.model.board = opts.board; // pass in board from router
+    // this.model.board = opts.board;
   },
 
   events: {
-    'submit form': "createList"
+    'submit form': "createList",
+    'click .close-form': "closeForm"
   },
 
   render: function(){
@@ -17,14 +18,22 @@ TrelloClone.Views.ListNew = Backbone.View.extend({
 
   createList: function(event){
     event.preventDefault();
-    var formData = $(event.currentTarget).serializeJSON().list;
+    var $form = $(event.currentTarget)
+    var formData = $form.serializeJSON().list;
 
     this.model.save(formData, {
       success: function(){
-        console.log("saved!");
         // this.model.board.fetch();
+        this.model.board.lists().add(this.model);
+        $form.remove();
         Backbone.history.navigate("#/boards/" + this.model.board.id, { trigger: true });
       }.bind(this)
     });
+  },
+
+  closeForm: function(event) {
+    event.preventDefault();
+    var $form = $(event.currentTarget)
+    $form.remove();
   }
 });

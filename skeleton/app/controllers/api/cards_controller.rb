@@ -22,6 +22,12 @@ module Api
       end
     end
 
+    def destroy
+      @card = Card.find(params[:id])
+      @card.destroy
+      render json: nil
+    end
+
     private
 
     def current_list

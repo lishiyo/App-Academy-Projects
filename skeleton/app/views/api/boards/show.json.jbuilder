@@ -15,9 +15,10 @@ json.lists do
 
       json.cards list.cards do |json, card|
         json.title card.title
-        json.desc card.description
+        json.description card.description
         json.ord card.ord
         json.list_id card.list_id
+        json.id card.id
       end
 
   end

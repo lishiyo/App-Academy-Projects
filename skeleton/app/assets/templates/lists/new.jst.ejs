@@ -1,16 +1,23 @@
-<h1>Create a New List</h1>
+<h2>Create a New List <i class="close-form"></i> </h2>
 
 <form id="new_list">
+
+<div class="form-group">
   <label for="list_title">Title</label>
-  <input type="text" name="list[title]" id="list_title" value="<%= list.escape('title') %>">
-  <br>
-  <label for="list_ord">Importance:<br>
-  <input type="radio" name="list[ord]" value="0">High<br>
-  <input type="radio" name="list[ord]" value="1">Medium<br>
-  <input type="radio" name="list[ord]" value="2">Low<br>
-  </label>
+  <input type="text" name="list[title]" id="list_title" value="<%= list.escape('title') %>" class="form-control">
+</div>
+
+<div class="form-group">
+  <label for="list_ord">Importance:</label>
+  <select class="form-control" name="list[ord]" id="list_ord">
+    <option value="0">High</option>
+    <option value="1">Medium</option>
+    <option value="2">Low</option>
+  </select>
+
+</div>
 
   <input type="hidden" name="list[board_id]" value="<%= list.board.id %>">
 
-  <input type="submit" value="make a list">
+  <button type="submit" class="btn btn-default">add list</button>
 </form>
