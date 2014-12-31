@@ -23,10 +23,10 @@ TrelloClone.Views.ListNew = Backbone.View.extend({
 
     this.model.save(formData, {
       success: function(){
-        // this.model.board.fetch();
         this.model.board.lists().add(this.model);
+        this.model.board.lists().trigger('addNewList', this.model);
         $form.remove();
-        Backbone.history.navigate("#/boards/" + this.model.board.id, { trigger: true });
+        // Backbone.history.navigate("#/boards/" + this.model.board.id, { trigger: true });
       }.bind(this)
     });
   },

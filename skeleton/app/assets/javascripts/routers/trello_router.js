@@ -42,16 +42,17 @@ TrelloClone.Routers.TrelloRouter = Backbone.Router.extend({
     TrelloClone.boards.fetch();
 
     var board = TrelloClone.boards.getOrFetch(id); // need to fetch to get this._lists
-    // board.fetch({
-    //   success: function(){
+
+    board.fetch({
+      success: function(){
 
         var boardShow = new TrelloClone.Views.BoardShow({
           model: board
         });
 
         this._swapView(boardShow);
-    //   }.bind(this)
-    // });
+      }.bind(this)
+    });
 
   },
 
