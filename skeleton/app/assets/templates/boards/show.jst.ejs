@@ -1,0 +1,16 @@
+<h2><%= board.escape('title') %></h2>
+
+<h4>Lists</h4>
+
+<a class="btn btn-default" href="#/boards/<%= board.id %>/lists/new">
+Create a New List
+</a>
+
+<ul>
+  <% board.lists().each(function(list) { %>
+
+    <li><%= list.escape('title') %></li>
+
+  <% }) %>
+
+</ul>

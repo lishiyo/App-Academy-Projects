@@ -1,3 +1,8 @@
+
+@import "bootstrap";
+@import "font-awesome";
+
+
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -12,6 +17,3 @@
  *= require jquery.ui.all
  *= require_tree .
  */
-
-@import "bootstrap";
-@import "font-awesome";

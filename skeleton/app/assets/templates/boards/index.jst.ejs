@@ -1,0 +1,15 @@
+<h1>Boards Index</h1>
+
+<a class="btn btn-info" href="#/boards/new">Make a New Board</a>
+
+<ul>
+
+  <% boards.each(function(board){ %>
+
+      <li><a href="#/boards/<%= board.id %>">
+        <%= board.escape('title') %></a>
+        <button class="deleteBoard btn btn-xs btn-danger" data-id="<%= board.id %>">Delete</button>
+      </li>
+
+  <% }) %>
+</ul>
