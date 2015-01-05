@@ -1,1 +1,35 @@
 /* PHASE 4: Footer */
+
+footer.footer{
+  width: 900px;
+  margin: 0 auto;
+  background-color: white;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid #ccc;
+  border-top: 0px;
+  border-radius: 0px 0px 5px 5px;
+}
+
+footer.footer small.footer-tagline {
+  float: left;
+  padding: 20px;
+}
+
+footer.footer nav.footer-nav {
+  float: right;
+}
+
+nav.footer-nav ul {
+  padding: 20px;
+}
+
+nav.footer-nav > ul > li {
+  float: left;
+  padding-left: 20px;
+}
+
+nav.footer-nav > ul > li a:hover {
+  color: black;
+}

@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>App Academy Friends</title>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="css/00-reset.css" type="text/css">
   <link rel="stylesheet" href="css/01-header.css" type="text/css">
@@ -20,7 +21,81 @@
 </head>
 <body>
 
-  <!-- YOUR HTML HERE -->
+  <header class="header">
+
+    <nav class="header-nav group">
+      <h1 class="header-logo">
+        <a href="#">App Academy Friends</a>
+      </h1>
+
+      <ul class="header-list group">
+        <li class="new-notification-parent">
+          <a href="#">
+            Notifications
+            <strong class="badge">3</strong>
+          </a>
+          <ul class="new-notification">
+            <li><a href="#">Constance likes your photo.</a></li>
+            <li><a href="#">Tommy left you a comment.</a></li>
+            <li><a href="#">Jonathan is now following you.
+              </a></li>
+          </ul>
+
+        </li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </nav>
+
+  </header>
+
+
+  <main class="content group">
+
+    <header class="content-header">
+        <h1>Connie the Cunning</h1>
+        <button>Add Friend</button>
+    </header>
+
+    <section class="content-sidebar">
+      <section class="profile-picture">
+        <a href="#"><img src="../shared/img/cat.jpg" alt="Sennacy" /></a>
+      </section>
+      <section class="profile-info">
+        <h2>Sennacy</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+
+      </section>
+      <section class="profile-nav">
+        <ul>
+          <li>Wall</li>
+          <li>About</li>
+          <li>Friends</li>
+          <li>Photos</li>
+        </ul>
+      </section>
+    </section>
+
+    <section class="content-main">
+    </section>
+
+
+  </main>
+
+  <footer class="footer group">
+    <small class="footer-tagline">2014 Louie & Connie AKA the cool kids</small>
+    <nav class="footer-nav group">
+      <ul class="footer-links group">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </nav>
+  </footer>
+
 
   <script src="../shared/js/jquery.js"></script>
   <script>
