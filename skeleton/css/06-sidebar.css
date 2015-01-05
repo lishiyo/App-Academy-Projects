@@ -3,12 +3,13 @@
 section.content-sidebar section.profile-picture {
   position: relative;
   margin-top: -120px;
+  overflow: hidden;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 section.content-sidebar section.profile-picture a {
   display: block;
-  border: 1px solid black;
-  border-radius: 5px;
 }
 
 section.content-sidebar section.profile-info {

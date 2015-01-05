@@ -1,1 +1,79 @@
 /* PHASE 9: Forms */
+.content-main a.avatar {
+  float: left;
+}
+
+.content-main a.avatar img {
+  max-height: 58px;
+  max-width: 58px;
+}
+
+.content-main form {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  border-radius: 5px;
+  width: 500px;
+  padding: 19px;
+  margin-left: 20px;
+  display: block;
+}
+
+form .input {
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+}
+
+form .input label{
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+form .input input, .input textarea{
+  width: calc(100% - 22px);
+  display: block;
+  /*margin: 10px;*/
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form textarea {
+  height: 120px;
+}
+
+form .submit button {
+  /*margin-top: 20px;*/
+  background-color: #0c0;
+  font-weight: 700;
+  border-radius: 5px;
+  box-shadow: 0 3px 0 0 #070;
+  padding: 10px 20px;
+  color: white;
+  position: relative;
+}
+
+form .submit button:active {
+  top: 3px;
+  box-shadow: 0 0 0 0;
+}
+
+form .submit button:hover {
+  background-color: #0a0;
+}
+
+form .submit strong {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+form .submit strong:hover {
+  color: red;
+}
+
+form .input input:focus, .input textarea:focus {
+  border: 1px solid #0b0;
+}
