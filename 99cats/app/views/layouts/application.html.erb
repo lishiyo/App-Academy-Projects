@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ninetyninecats</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= p current_user %>
+  <%= p params %>
+  <% if current_user.present? %>
+    <h1> <%= current_user.user_name %> </h1>
+    <%= button_to "Logout", session_url, method: :delete %>
+  <% else %>
+    <%= link_to "Login", new_session_url, method: :get %>
+    <%= link_to "Sign Up", new_user_url, method: :get %>
+  <% end %>
+  <!-- :danger, :notice, :success -->
+  <% flash.each do |message_type, message| %>
+    <% if message.is_a?(Array) %>
+      <div>
+        <% message.each do |error| %>
+          <li class='alert alert-<%=message_type %>'><%= "#{error}" %> </li>
+        <% end %>
+      </div>
+    <% else %>
+      <li class='alert alert-<%=message_type %>'> <%= "#{message}" %> </li>
+    <% end %>
+  <% end %>
+
+  <%= yield %>
+
+</body>
+</html>

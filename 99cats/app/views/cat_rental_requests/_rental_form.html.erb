@@ -1,0 +1,32 @@
+<% action_name = cat_rental_request.persisted? ? cat_rental_request_url(cat_rental_request) : cat_rental_requests_url %>
+<form action="<%= action_name %>" method="post">
+  <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %>
+  <% if cat_rental_request.persisted? %>
+    <input type="hidden" name="_method" value="patch">
+  <% end %>
+  <label for="cat_pulldown">Choose a cat</label>
+  <!-- dropdown -->
+  <select name="cat_rental_request[cat_id]">
+
+    <option value=""></option>
+
+    <% cat_options.each do |cat_opt| %>
+      <option value=<%= cat_opt.id %> <%= "selected" if cat_rental_request.cat_id == cat_opt.id %>>
+        <%= cat_opt.name %>
+      </option>
+    <% end %>
+
+  </select>
+
+  <br>
+
+  <label for="cat_rental_request_start_date">Start Date</label>
+  <input name="cat_rental_request[start_date]" id="cat_rental_request_start_date" type="date" value=<%=cat_rental_request.start_date%>>
+  <br>
+
+  <label for="cat_rental_request_end_date">End Date</label>
+  <input name="cat_rental_request[end_date]" id="cat_rental_request_end_date" type="date" value=<%=cat_rental_request.end_date%>>
+  <br>
+
+  <input type="submit" value="Submit your request!">
+</form>

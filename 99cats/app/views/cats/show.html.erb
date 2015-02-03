@@ -1,0 +1,42 @@
+<h1><%= @cat.name %></h1>
+
+<table>
+  <th> My Stats </th>
+  <% [:name, :birth_date, :sex].each do |attribute| %>
+    <tr> <td><%= "#{attribute}" %>:</td><td> <%= @cat.send(attribute) %></td> </tr>
+  <% end %>
+
+
+
+</table>
+
+<!-- /cat_rental_requests/new?cat_id=1 -->
+<%= link_to "Make a rental request for me", new_cat_rental_request_url(cat_id: @cat.id) %>
+<br>
+<table>
+  <th> My Rental Requests </th>
+  <tr>
+    <td>Number</td>
+    <td>Start-date</td>
+    <td>End-date</td>
+    <td>Requester name</td>
+  </tr>
+  <% @cat.cat_rental_requests.each_with_index do |req, idx| %>
+    <tr>
+      <td><%= "#{idx + 1}" %></td>
+      <td><%= req.start_date %></td>
+      <td><%= req.end_date %></td>
+      <td><%= req.status %></td>
+      <td><%= req.requester.user_name %></td>
+      <td>
+      <%if current_user == @cat.owner %>
+        <%if req.status == 'PENDING'%>
+          <%= button_to "Approve", approve_cat_rental_request_url(req), method: 'post'%>
+          <%= button_to "Deny", deny_cat_rental_request_url(req), method: 'post'%>
+        <%end%>
+      <%end%>
+      </td>
+
+    </tr>
+  <% end %>
+</table>
