@@ -1,0 +1,7 @@
+<h1>Edit <%= @goal.name %></h1>
+
+<%= render partial: "goals/form", locals: {
+  action_name: goal_url(@goal),
+  button_text: "Edit Goal",
+  goal_form_id: "edit-goal",
+  goal: @goal } %>

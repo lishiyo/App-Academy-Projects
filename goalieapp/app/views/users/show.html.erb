@@ -1,0 +1,54 @@
+<h1><%= @user.username %></h1>
+<h2>Create a Goal</h1>
+<%= render partial: "goals/form", locals: {
+    action_name: goals_url,
+    button_text: "Create New Goal",
+    goal_form_id: "create-goal",
+    goal: @goal } %>
+
+<!-- all my goals -->
+
+<h3>MY GOALS</h3>
+<% unless current_user.goals.empty? %>
+  <table>
+    <tr>
+      <th>deadline</th>
+      <th>goal</th>
+      <th>completed?</th>
+      <th>public?</th>
+      <th>Edit</th>
+      <th>Delete</th>
+      <th></th>
+    </tr>
+
+    <%= render @goals, locals: { goals: @goals } %>
+
+  </table>
+<% end %>
+
+
+<%= javascript_tag do %>
+  var arr = [$('.goalCompleted'), $('.goalPub')];
+  $.each(arr, function(idx, target) {
+    console.log(this);
+    attach_statuses(target);
+  })
+
+  function attach_statuses(target) {
+    target.each(function(idx, elem) {
+      $(elem).on('change', function() {
+        $(this.form).submit();
+        id = $(elem).attr('id');
+        var status = $('#' + String(id) + '-status');
+        console.log(id);
+        console.log(status);
+        status.show();
+        status.html("updated status");
+        status.fadeOut("slow");
+      });
+    });
+  }
+
+
+
+<% end %>

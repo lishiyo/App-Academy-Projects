@@ -1,0 +1,24 @@
+<%= form_tag action_name, method: :post, id: goal_form_id do %>
+  <% if goal.persisted? %>
+    <%= hidden_field_tag '_method', 'PATCH' %>
+  <% end %>
+
+  <%= label_tag "goal[name]", 'Name' %>
+  <%= text_field_tag "goal[name]", goal.name %>
+
+  <%= label_tag "goal[content]", "Content" %>
+  <%= text_area_tag "goal[content]", goal.content %>
+
+  <%= label_tag "goal[deadline]", "Deadline" %>
+  <%= date_field_tag "goal[deadline]", goal.deadline %>
+
+  <% if goal.persisted? %>
+    <%= label_tag "goal[completed]", "Completed?" %>
+    <%= check_box_tag "goal[completed][]", true, goal.completed? %>
+  <% end %>
+
+  <%= label_tag "goal[public]", "Make public?" %>
+  <%= check_box_tag "goal[public][]", true, goal.public? %>
+
+  <%= submit_tag button_text %>
+<% end %>

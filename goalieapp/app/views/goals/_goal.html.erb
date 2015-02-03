@@ -1,0 +1,29 @@
+<tr>
+
+  <td><%= goal.deadline %></td>
+  <td><%= goal.content %></td>
+
+  <% if goal.persisted? %>
+  <td>
+    <%= form_for(goal, remote: true, method: :patch) do |f| %>
+      <%= f.check_box :completed, id: "goalCompleted-#{goal.id}", class: "goalCompleted" %>
+    <% end %>
+  </td>
+  <td>
+    <%= form_for(goal, remote: true, method: :patch) do |f| %>
+      <%= f.check_box :public, id: "goalPub-#{goal.id}", class: "goalPub" %>
+    <% end %>
+  </td>
+
+    <td><%= button_to "edit", edit_goal_url(goal), method: :get %></td>
+    <td><%= button_to "delete", goal_url(goal), method: :delete %></td>
+
+    <td>
+      <span id="goalCompleted-<%=goal.id%>-status"></span>
+    </td>
+    <td>
+      <span id="goalPub-<%=goal.id%>-status"></span>
+    </td>
+
+  <% end %>
+</tr>
