@@ -1,0 +1,25 @@
+<h3>add a card</h3>
+
+<form>
+
+<div class="form-group">
+  <label for="card_title">Title</label>
+  <input type="text" name="card[title]" id="card_title" value="<%= card.escape('title') %>" class="form-control">
+</div>
+
+<div class="form-group">
+  <label for="card_desc">Description</label>
+  <input type="text" name="card[description]" id="card_desc" value="<%= card.escape('description') %>" class="form-control">
+</div>
+
+<div class="form-group">
+<label for="card_ord">Importance:</label>
+<select class="form-control" name="card[ord]" id="card_ord">
+  <option value="0">High</option>
+  <option value="1">Medium</option>
+  <option value="2">Low</option>
+</select>
+</div>
+
+  <button type="submit" class="btn btn-default">Add Card</button>
+</form>
