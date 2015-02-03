@@ -1,0 +1,49 @@
+/* PHASE 2: Notifications */
+
+ul.header-list strong.badge {
+  background-color: black;
+  border-radius: 50%;
+  padding: 1px 6px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+ul.header-list li.new-notification-parent:hover .new-notification {
+  display: block;
+}
+
+li.new-notification-parent:hover > a{
+  background-color: black;
+}
+
+ul.header-list li.new-notification-parent:hover strong.badge {
+  background-color: red;
+}
+
+ul.new-notification {
+  position: absolute;
+  display: none;
+  background-color: #fff;
+  color: black;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-radius: 0px 0px 5px 5px;
+  border-bottom: 1px solid #ccc;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+ul.new-notification li:hover a {
+  background-color: #eee;
+}
+
+ul.new-notification li a {
+  color: black;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+ul.new-notification li {
+  border-top: 1px solid #ccc;
+}
