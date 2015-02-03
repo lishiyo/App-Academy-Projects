@@ -1,0 +1,21 @@
+<%= form_tag({controller: "shortened_urls", action: "create"}, method: "post") do %>
+
+  <div class="field">
+		<%= url_field(:shortened_url, :long_url, { placeholder: "much url", class: 'form-control'}) %>
+  </div>
+	<div class="field">
+		<%= text_field(:shortened_url, :tags, { placeholder: "tags", class: 'form-control'}) %>
+  </div>
+<% unless current_user.present? %>
+	<div class="field">
+		<%= email_field(:user, :email, { placeholder: "email", class: 'form-control'}) %>
+  </div>
+	<div class="field">
+		<%= password_field(:user, :password, { placeholder: "password", class: 'form-control'}) %>
+	</div>
+<% end %>
+
+<%= submit_tag "go", class: "btn btn-info" %>
+
+ 
+<% end %>

@@ -1,0 +1,28 @@
+<tr id="<%= shortened_url.id %>">
+	<td>
+		<span class="submitter"><%= link_to shortened_url.long_url, "#{shortened_url.long_url.strip}", { target: "_blank" } %></span>
+	</td>
+	<td>
+		<span class="url">
+			<%= shortened_url.short_url %>
+		</span>
+	</td>
+	<td>
+  <span class="timestamp">
+<!--     submitted <%= time_ago_in_words(shortened_url.created_at) %> ago. -->
+		<%= button_to "delete", shortened_url, method: :delete,
+                                       data: {  },
+                                       title: shortened_url.long_url, 
+																			 class: 'btn btn-info btn-small' %>
+  </span>
+	</td>
+</tr>
+<tr>
+	<td colspan="3">
+		<span class="tag_topics">
+		<%- shortened_url.tag_topics.map do |tt| %>
+			<%= link_to "##{tt.topic}", tag_topic_path(tt) %>
+		<% end unless shortened_url.tag_topics.nil?  %>
+	</span>
+	</td>
+</tr>

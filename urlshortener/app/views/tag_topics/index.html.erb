@@ -1,0 +1,22 @@
+<% provide(:title, 'all tags') %>
+<h1>all tag categories (<%= TagTopic.all.count %>)</h1>
+
+<div style="col-md-6 col-md-offset-3">
+	<h2>most popular</h2>
+	<div style="text-align:center;">
+		<% TagTopic.most_popular_urls(20).each do |short_url| %>
+			<%= link_to short_url.long_url, "http://#{short_url.long_url}" %><br />
+		<% end %>
+		<br />
+	</div>
+	<% @tag_topics.sort_by{|tt| tt.shortened_urls.count }.reverse.each do |tt| %>
+	<h2><%= tt.topic %></h2>
+	<div style="text-align:center;">
+		<% tt.most_popular_for_tag.each do |short_url| %>
+			<%= link_to short_url.long_url, "http://#{short_url.long_url}" %><br />
+		<% end %>
+		<br />
+	</div>
+		
+	<% end %>
+</div>

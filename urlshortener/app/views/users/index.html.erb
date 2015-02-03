@@ -1,0 +1,14 @@
+<% provide(:title, 'All users') %>
+<h1>all users (<%= User.all.count %>)</h1>
+
+<ul class="users">
+	<% @users.each do |user| %>
+	<%= link_to user.username, user %>
+	<ul>
+			<% user.submitted_urls.each do |url| %>
+				<li><%= link_to url.long_url, "http://#{url.long_url}" %></li>
+			<% end %>
+	</ul>
+		
+	<% end %>
+</ul>

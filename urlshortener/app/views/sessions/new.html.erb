@@ -1,0 +1,19 @@
+<h1>login</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+		<%= form_tag(session_url, method: :post) do %>
+			<%= label_tag 'user_email', "Email"%>
+			<%= text_field :user, :email, class: 'form-control' %>
+
+			<%= label_tag 'user_password', "Password" %>
+			<%= password_field :user, :password, class: 'form-control' %>
+		
+		<label for="session[remember_me]" class="checkbox inline">
+			<%= check_box_tag 'session[remember_me]', true, class: 'checkbox inline' %>
+				<span> Remember me</span>
+		</label>
+		<%= submit_tag "login", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
