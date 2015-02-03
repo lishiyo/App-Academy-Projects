@@ -1,0 +1,12 @@
+<h1>All Feeds</h1>
+
+<ul>
+<% feeds.each(function(feed, idx){ %>
+
+  <li><a href="#/feeds/<%= feed.id %>"><%= feed.escape('title') %></a>
+  <button class="delete" data-id="<%= feed.id %>">Delete Feed</button>
+  <button class="favorite" data-id="<%= feed.id %>">Favorite</button>
+  </li>
+
+<% }); %>
+</ul>
