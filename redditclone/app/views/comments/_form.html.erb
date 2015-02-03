@@ -1,0 +1,15 @@
+<form action="<%= comments_url %>" method="POST">
+  <%= add_auth_token %>
+  <% if @comment.persisted? %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+
+  <label for="comment_content">Content:</label>
+  <input type="text" name="comment[content]" value="<%= @comment.content %>" id="comment_content">
+  <input type="hidden" name="comment[post_id]" value="<%= params[:post_id] %>">
+
+
+  <input type="submit" value="<%= button_text %>">
+
+
+</form>

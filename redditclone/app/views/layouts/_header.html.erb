@@ -1,0 +1,22 @@
+<nav class="nav navbar nav-navbar">
+  <ul>
+<% if logged_in? %>
+  <form action="<%= session_url %>" method="POST">
+    <%= add_auth_token %>
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Log Out">
+  </form>
+<% else %>
+  <li>
+    <form action="<%= new_user_url %>" method="GET">
+      <input type="submit" value="Sign Up">
+    </form>
+  </li>
+  <li>
+    <form action="<%= new_session_url %>" method="GET">
+      <input type="submit" value="Sign In">
+    </form>
+  </li>
+<% end %>
+  </ul>
+</nav>

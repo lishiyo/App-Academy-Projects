@@ -1,0 +1,6 @@
+<h1>Editing user</h1>
+
+<%= render partial: 'shared/form', locals: {action_name: user_url(@user), button_text: "Update"} %>
+
+<%= link_to 'Show', @user %> |
+<%= link_to 'Back', users_path %>
