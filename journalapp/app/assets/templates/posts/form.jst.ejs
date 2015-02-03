@@ -1,0 +1,15 @@
+<h1><%= post.id ? "Edit Post" : "Create a Post" %></h1>
+
+<ul class="errors">
+
+</ul>
+
+<form id="post_form">
+  <label for="post_title">Title</label>
+  <input id="post_title" type="text" name="post[title]" value="<%= post.escape('title') %>">
+
+  <label for="post_body">Body</label>
+  <input id="post_body" type="textarea" name="post[body]" value="<%= post.escape('body') %>">
+
+  <input type="submit" value="Submit">
+</form>
