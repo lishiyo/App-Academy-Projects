@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Thumbnails!!!</title>
+    <script src="../jquery-1.11.1.js"></script>
+    <script src="./thumbnails.js"></script>
+    <link href="./thumbnails.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+
+    <div class="thumbnails">
+      <div class="active"></div>
+      <div class="group gutter">
+        <a class="nav left" href="#">&lt;</a>
+      <div class="group gutter-images">
+        <img src="../images/digimon-1.gif" alt="digimon-1" />
+        <img src="../images/digimon-1-m.jpeg" alt="digimon-1-m" />
+        <img src="../images/digimon-2.jpeg" alt="digimon-2" />
+        <img src="../images/digimon-1-l.gif" alt="digimon-1-l" />
+        <img src="../images/digimon-3.gif" alt="digimon-3" />
+
+        <img src="../images/digimon-4.gif" alt="digimon-1" />
+        <img src="../images/digimon-4-b.gif" alt="digimon-1-m" />
+        <img src="../images/digimon-4-c.png" alt="digimon-2" />
+        <img src="../images/digimon-4-d.jpg" alt="digimon-1-l" />
+        <img src="../images/digimon-5-a.jpg" alt="digimon-3" />
+
+        <img src="../images/digimon-5-b.png" alt="digimon-1" />
+        <img src="../images/magnadramon.png" alt="digimon-1" />
+        <img src="../images/Paildramon.jpg" alt="digimon-1-m" />
+
+        <img src="../images/digimon-6-b.jpg" alt="digimon-1-m" />
+        <img src="../images/digimon-6.jpeg" alt="digimon-2" />
+        <img src="../images/digimon-7.png" alt="digimon-1-l" />
+        <img src="../images/digimon-7-b.jpg" alt="digimon-3" />
+
+        <img src="../images/corgi-2.jpeg"   />
+        <img src="../images/corgi-3.jpeg"  />
+        <img src="../images/corgi-4.jpeg"  />
+        <img src="../images/corgi-5.jpeg"  />
+      </div>
+        <a class="nav right" href="#">&gt;</a>
+    </div>
+  </div>
+
+
+    <script charset="utf-8">
+      $(document).ready( function() {
+        var thumbnails = new $.Thumbnails($("body"));
+      });
+    </script>
+
+  </body>
+</html>

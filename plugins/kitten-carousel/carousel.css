@@ -1,0 +1,50 @@
+html, div, p, ul, li {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  background: transparent;
+  color: inherit;
+}
+
+
+ul {
+  list-style: none;
+}
+
+div.carousel {
+  height: 350px;
+  width:  350px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+div.items {
+  height: 100%;
+  width: 100%;
+  left: 0%;
+  /*left: 0;*/
+  /*-webkit-transition: left 1s;*/
+}
+
+/*not display any child of div.items without the active class.*/
+div.items :not(.active) {
+  display: none;
+  /*left: 100%;*/
+}
+
+.active {
+  position: absolute;
+  -webkit-transition: left .5s;
+  left: 0%;
+}
+.active.right {
+  left: 100%;
+}
+
+.active.left {
+  left: -100%;
+}
