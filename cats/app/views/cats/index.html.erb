@@ -1,0 +1,8 @@
+<h1>All your cats</h1>
+<ul>
+    <% @cats.each do |cat| %>
+      <li><%= link_to "#{cat.name}", cat_path(cat) %></li>
+    <% end %>
+  </ul>
+
+  <%= link_to "Create new cat!", new_cat_url %>
